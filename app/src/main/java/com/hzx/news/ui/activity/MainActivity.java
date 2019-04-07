@@ -1,7 +1,9 @@
-package com.hzx.news;
+package com.hzx.news.ui.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.hzx.news.R;
 
 public class MainActivity extends AppCompatActivity {
 

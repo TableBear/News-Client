@@ -10,7 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import com.github.nukc.stateview.StateView;
-import com.hzx.news.MainActivity;
+import com.hzx.news.ui.activity.MainActivity;
 import com.hzx.news.listener.PermissionListener;
 
 import org.greenrobot.eventbus.EventBus;
@@ -165,7 +165,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
      */
     @Override
     public void onBackPressed() {
-        if (mCurrentActivity instanceof MainActivity){
+        if (mCurrentActivity instanceof MainActivity) {
             //如果是主页面
             if (System.currentTimeMillis() - mPreTime > 2000) {// 两次点击间隔大于2秒
 //                UIUtils.showToast("再按一次，退出应用");
