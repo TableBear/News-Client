@@ -1,18 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.base.activity.MainActivity">
+    android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <com.hzx.news.ui.uikit.NoScrollViewPager
+        android:id="@+id/vp_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
-</android.support.constraint.ConstraintLayout>
+    <com.chaychan.library.BottomBarLayout
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:background="@color/color_F3F5F4"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:smoothScroll="true">
+
+        <com.chaychan.library.BottomBarItem
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:iconNormal="@mipmap/tab_home_normal"
+            app:iconSelected="@mipmap/tab_home_selected"
+            app:itemMarginTop="-5dp"
+            app:itemText="@string/tab_home"
+            app:itemTextSize="8sp"
+            app:openTouchBg="true"
+            app:textColorNormal="@color/color_515051"
+            app:textColorSelected="@color/color_D33D3C"
+            app:touchDrawable="@drawable/selector_bottom_tab" />
+
+
+        <com.chaychan.library.BottomBarItem
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:iconNormal="@mipmap/tag_recom_normal"
+            app:iconSelected="@mipmap/tag_recom_select"
+            app:itemMarginTop="-5dp"
+            app:itemText="@string/tab_recom"
+            app:itemTextSize="8sp"
+            app:openTouchBg="true"
+            app:textColorNormal="@color/color_515051"
+            app:textColorSelected="@color/color_D33D3C"
+            app:touchDrawable="@drawable/selector_bottom_tab" />
+
+
+        <com.chaychan.library.BottomBarItem
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:iconNormal="@mipmap/tab_me_normal"
+            app:iconSelected="@mipmap/tab_me_selected"
+            app:itemMarginTop="-5dp"
+            app:itemText="@string/tab_me"
+            app:itemTextSize="8sp"
+            app:openTouchBg="true"
+            app:textColorNormal="@color/color_515051"
+            app:textColorSelected="@color/color_D33D3C"
+            app:touchDrawable="@drawable/selector_bottom_tab" />
+
+    </com.chaychan.library.BottomBarLayout>
+
+</LinearLayout>
