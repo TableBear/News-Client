@@ -32,4 +32,7 @@
     <color name="color_4592C6">#4592C6</color>
     <color name="color_1affffff">#1affffff</color>
     <color name="color_E6E8E7">#E6E8E7</color>
+    <color name="subscribe_category_bar_bg_night">#cc363636</color>
+    <color name="text_grey">#AEAEAE</color>
+    <color name="selector_grey">#DDDDDD</color>
 </resources>

@@ -1,5 +1,6 @@
 package com.hzx.news.ui.Fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -59,8 +60,8 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
     private SimpleDateFormat sdf;
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
         Bundle bundle = getArguments();
         cate = bundle.getString("cate");
     }
@@ -200,7 +201,7 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
             newsHolder.tvAuthor.setText(news.getAuthor());
             newsHolder.tvTime.setText(sdf.format(news.getPublishTime()));
             newsHolder.tvCommentNum.setText("0评论");
-            GlideUtils.load(getContext(), news.getCoverImageUrl(), newsHolder.ivImg);
+            GlideUtils.load(getActivity(), news.getCoverImageUrl(), newsHolder.ivImg);
             if (itemOnClickListener != null)
                 newsHolder.itemView.setOnClickListener(itemOnClickListener);
         }

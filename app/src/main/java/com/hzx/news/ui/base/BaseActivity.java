@@ -9,9 +9,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
+import com.chaychan.library.UIUtils;
 import com.github.nukc.stateview.StateView;
-import com.hzx.news.ui.activity.MainActivity;
 import com.hzx.news.listener.PermissionListener;
+import com.hzx.news.ui.activity.MainActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -22,15 +23,15 @@ import java.util.ListIterator;
 
 import butterknife.ButterKnife;
 
+
 /**
- * @Description:
- * @Author: TableBear
- * @Date: 2019/4/5 23:17
- * @param:
- * @return:
- * @throws:
+ * @author ChayChan
+ * @description: activity的基类
+ * @date 2017/6/10  16:42
  */
+
 public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity {
+
     protected T mPresenter;
     private static long mPreTime;
     private static Activity mCurrentActivity;// 对所有activity进行管理
