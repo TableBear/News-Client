@@ -154,17 +154,20 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
     public void onSuccess(List<News> newsList) {
         if (ListUtils.isEmpty(newsList)) {
             tipView.show("暂时没有新数据");
+            smartRefreshLayout.finishRefresh();
             if (ListUtils.isEmpty(datas)) {
                 stateView.showEmpty();
+            } else {
+                stateView.showContent();
             }
-            smartRefreshLayout.finishRefresh();
         } else {
             datas.addAll(0, newsList);
             newsAdapter.notifyDataSetChanged();
             tipView.show("有" + newsList.size() + "条新数据");
             smartRefreshLayout.finishRefresh();
+            stateView.showContent();
         }
-        stateView.showContent();
+
     }
 
     @Override
@@ -182,11 +185,11 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
     }
 
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        loadDate();
-    }
+//    @Override
+//    public void onHiddenChanged(boolean hidden) {
+//        super.onHiddenChanged(hidden);
+//        loadDate();
+//    }
 
     private class NewsHolder extends RecyclerView.ViewHolder {
         public TextView tvTitle;
