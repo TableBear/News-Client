@@ -5,7 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 /**
- * @author ChayChan
+ * @author TableBear
  * @description: 网络的工具类
  * @date 2017/6/16  21:22
  */

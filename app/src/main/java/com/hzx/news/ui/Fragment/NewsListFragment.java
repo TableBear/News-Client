@@ -23,6 +23,7 @@ import com.hzx.news.presenter.View.NewsListView;
 import com.hzx.news.ui.base.BaseFragment;
 import com.hzx.news.ui.uikit.GlideUtils;
 import com.hzx.news.utils.DateUtils;
+import com.hzx.news.utils.ListUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -153,7 +154,15 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
 
     @Override
     public void onError() {
+        if (ListUtils.isEmpty(datas)) {
+            //如果一开始进入没有数据
+            stateView.showRetry();//显示重试的布局
+        }
 
+        //收起刷新
+        if (smartRefreshLayout.isRefreshing()) {
+            smartRefreshLayout.finishRefresh();
+        }
     }
 
     private class NewsHolder extends RecyclerView.ViewHolder {

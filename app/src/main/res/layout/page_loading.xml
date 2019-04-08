@@ -6,7 +6,7 @@
     android:background="@color/white"
     >
 
-    <com.chaychan.uikit.LoadingFlashView
+    <com.hzx.news.ui.uikit.LoadingFlashView
         android:id="@+id/loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

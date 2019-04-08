@@ -37,6 +37,7 @@ public class NewsListPresenter extends BasePresenter<NewsListView> {
             @Override
             public void onError(Throwable e) {
                 KLog.i(e.getLocalizedMessage());
+                view.onError();
             }
 
             @Override
