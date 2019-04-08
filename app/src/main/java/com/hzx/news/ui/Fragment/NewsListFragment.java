@@ -24,6 +24,7 @@ import com.hzx.news.ui.base.BaseFragment;
 import com.hzx.news.ui.uikit.GlideUtils;
 import com.hzx.news.utils.DateUtils;
 import com.hzx.news.utils.ListUtils;
+import com.hzx.news.utils.TipView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -48,6 +49,8 @@ import butterknife.BindView;
  */
 public class NewsListFragment extends BaseFragment<NewsListPresenter> implements NewsListView {
 
+    @BindView(R.id.tip_view)
+    TipView tipView;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.frame_layout)
@@ -61,8 +64,8 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
     private SimpleDateFormat sdf;
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         Bundle bundle = getArguments();
         cate = bundle.getString("cate");
     }
@@ -149,13 +152,15 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
     @Override
     public void onSuccess(List<News> newsList) {
         if (ListUtils.isEmpty(newsList)) {
-            stateView.showEmpty();
+            tipView.show("暂时没有新数据");
+            smartRefreshLayout.finishRefresh();
         } else {
             datas.addAll(0, newsList);
             newsAdapter.notifyDataSetChanged();
-            stateView.showContent();
+            tipView.show("有" + newsList.size() + "条新数据");
             smartRefreshLayout.finishRefresh();
         }
+        stateView.showContent();
     }
 
     @Override
