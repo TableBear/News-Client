@@ -1,5 +1,7 @@
 package com.hzx.news.ui.base;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,11 +21,18 @@ public abstract class BaseFragment<T extends BasePresenter> extends LazyLoadFrag
     protected T presenter;
     protected StateView stateView;
     private View view;
+    protected Activity activity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter = createPresenter();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        activity = (Activity) context;
     }
 
     @Nullable

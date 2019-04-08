@@ -1,6 +1,7 @@
 package com.hzx.news.ui.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,7 @@ import com.hzx.news.R;
 import com.hzx.news.model.entity.News;
 import com.hzx.news.presenter.NewsListPresenter;
 import com.hzx.news.presenter.View.NewsListView;
+import com.hzx.news.ui.activity.WebViewActivity;
 import com.hzx.news.ui.base.BaseFragment;
 import com.hzx.news.ui.uikit.GlideUtils;
 import com.hzx.news.utils.DateUtils;
@@ -115,13 +117,13 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
         datas = new ArrayList<>();
         newsAdapter = new NewsAdapter(datas);
         recyclerView.setAdapter(newsAdapter);
-        newsAdapter.setItemOnClickListener(new View.OnClickListener() {
+        newsAdapter.setItemClickListener(new ItemClickListener() {
             @Override
-            public void onClick(View v) {
-                System.out.println("当前线程：" + Thread.currentThread().getId());
-                Toast.makeText(getActivity(), "点击了", Toast.LENGTH_LONG);
+            public void click(int position, View view) {
                 System.out.println("点击了");
-//                Intent intent = new Intent();
+                Intent intent = new Intent(activity, WebViewActivity.class);
+                intent.putExtra(WebViewActivity.URL, newsAdapter.list.get(position).getArticleUrl());
+                startActivity(intent);
             }
         });
         smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -211,7 +213,7 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
     private class NewsAdapter extends RecyclerView.Adapter<NewsHolder> {
 
         private List<News> list;
-        private View.OnClickListener itemOnClickListener;
+        private ItemClickListener itemClickListener;
 
         public NewsAdapter(List<News> list) {
             this.list = list;
@@ -237,8 +239,12 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
             newsHolder.tvTime.setText(sdf.format(news.getPublishTime()));
             newsHolder.tvCommentNum.setText("0评论");
             GlideUtils.load(getActivity(), news.getCoverImageUrl(), newsHolder.ivImg);
-            if (itemOnClickListener != null)
-                newsHolder.itemView.setOnClickListener(itemOnClickListener);
+            newsHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    itemClickListener.click(i, v);
+                }
+            });
         }
 
         @Override
@@ -246,9 +252,13 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
             return list.size();
         }
 
-        public void setItemOnClickListener(View.OnClickListener itemOnClickListener) {
-            this.itemOnClickListener = itemOnClickListener;
+        public void setItemClickListener(ItemClickListener itemClickListener) {
+            this.itemClickListener = itemClickListener;
         }
 
+    }
+
+    private interface ItemClickListener {
+        void click(int position, View view);
     }
 }
