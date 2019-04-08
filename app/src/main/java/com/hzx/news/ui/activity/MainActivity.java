@@ -2,8 +2,6 @@ package com.hzx.news.ui.activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
 import com.chaychan.library.BottomBarItem;
 import com.chaychan.library.BottomBarLayout;
@@ -12,14 +10,15 @@ import com.hzx.news.ui.Fragment.HomeFragment;
 import com.hzx.news.ui.Fragment.MineFragment;
 import com.hzx.news.ui.Fragment.RecomFragment;
 import com.hzx.news.ui.adapter.MainTabAdapter;
+import com.hzx.news.ui.base.BaseActivity;
+import com.hzx.news.ui.base.BasePresenter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     @BindView(R.id.bottom_bar)
     BottomBarLayout bottomBarLayout;
     @BindView(R.id.vp_content)
@@ -28,17 +27,9 @@ public class MainActivity extends AppCompatActivity {
     private List<Fragment> fragments;
     private MainTabAdapter mainTabAdapter;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-        bottomBarLayout.setSmoothScroll(true);
-        initData();
-        initListener();
-    }
 
     public void initListener() {
+        bottomBarLayout.setSmoothScroll(true);
         mainTabAdapter = new MainTabAdapter(fragments, getSupportFragmentManager());
         viewPager.setAdapter(mainTabAdapter);
         viewPager.setOffscreenPageLimit(fragments.size());
@@ -50,6 +41,16 @@ public class MainActivity extends AppCompatActivity {
                 viewPager.setCurrentItem(currentPosition);
             }
         });
+    }
+
+    @Override
+    protected BasePresenter createPresenter() {
+        return null;
+    }
+
+    @Override
+    protected int provideContentViewId() {
+        return R.layout.activity_main;
     }
 
     public void initData() {

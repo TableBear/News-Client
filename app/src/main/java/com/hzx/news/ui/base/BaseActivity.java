@@ -83,9 +83,9 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     }
 
 
-    public boolean enableSlideClose() {
-        return true;
-    }
+//    public boolean enableSlideClose() {
+//        return true;
+//    }
 
 //    /**
 //     * 默认为左滑，子类可重写返回对应的方向
