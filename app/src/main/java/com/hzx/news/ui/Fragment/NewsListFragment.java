@@ -101,7 +101,8 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
         KLog.i("time:" + time);
         time = DateUtils.date2TimeStamp(time, "yyyy-MM-dd HH:mm:ss");
         presenter.getNewsList(cate, time, 20);
-//        stateView.showContent();
+        if (datas.size()!=0)
+            stateView.showContent();
     }
 
     public void initView(View view) {
