@@ -1,6 +1,5 @@
 package com.hzx.news.ui.Fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -40,7 +39,7 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
- * @Description:
+ * @Description: 显示新闻列表的Fragment
  * @Author: TableBear
  * @Date: 2019/4/8 0:45
  * @param:
@@ -101,8 +100,9 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
         KLog.i("time:" + time);
         time = DateUtils.date2TimeStamp(time, "yyyy-MM-dd HH:mm:ss");
         presenter.getNewsList(cate, time, 20);
-        if (datas.size()!=0)
+        if (!ListUtils.isEmpty(datas)) {
             stateView.showContent();
+        }
     }
 
     public void initView(View view) {
@@ -154,6 +154,9 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
     public void onSuccess(List<News> newsList) {
         if (ListUtils.isEmpty(newsList)) {
             tipView.show("暂时没有新数据");
+            if (ListUtils.isEmpty(datas)) {
+                stateView.showEmpty();
+            }
             smartRefreshLayout.finishRefresh();
         } else {
             datas.addAll(0, newsList);
@@ -175,6 +178,14 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
         if (smartRefreshLayout.isRefreshing()) {
             smartRefreshLayout.finishRefresh();
         }
+        tipView.show("网络出现问题");
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadDate();
     }
 
     private class NewsHolder extends RecyclerView.ViewHolder {

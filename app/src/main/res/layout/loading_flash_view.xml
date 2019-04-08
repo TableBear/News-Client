@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:scaleType="fitXY"
-        android:src="@drawable/load_text_1"/>
+        android:src="@mipmap/load_text_1" />
 
     <ImageView
         android:id="@+id/load2"
@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:scaleType="fitXY"
-        android:src="@drawable/load_text_2"/>
+        android:src="@mipmap/load_text_2" />
 
     <ImageView
         android:id="@+id/load3"
@@ -27,12 +27,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:scaleType="fitXY"
-        android:src="@drawable/load_text_3"/>
+        android:src="@mipmap/load_text_3" />
 
     <ImageView
         android:id="@+id/load4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/load_text_4"/>
+        android:src="@mipmap/load_text_4" />
 </LinearLayout>

@@ -16,7 +16,7 @@
         <ImageView
             android:layout_width="100dp"
             android:layout_height="70dp"
-            android:background="@drawable/img_net_error"
+            android:background="@mipmap/img_net_error"
             />
 
         <TextView
