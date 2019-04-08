@@ -98,7 +98,7 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
         KLog.i("time:" + time);
         time = DateUtils.date2TimeStamp(time, "yyyy-MM-dd HH:mm:ss");
         presenter.getNewsList(cate, time, 20);
-        stateView.showContent();
+//        stateView.showContent();
     }
 
     public void initView(View view) {
@@ -114,7 +114,9 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
         newsAdapter.setItemOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println("当前线程：" + Thread.currentThread().getId());
                 Toast.makeText(getActivity(), "点击了", Toast.LENGTH_LONG);
+                System.out.println("点击了");
 //                Intent intent = new Intent();
             }
         });
@@ -146,10 +148,14 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
 
     @Override
     public void onSuccess(List<News> newsList) {
-        datas.addAll(0, newsList);
-        newsAdapter.notifyDataSetChanged();
-        stateView.showContent();
-        smartRefreshLayout.finishRefresh();
+        if (ListUtils.isEmpty(newsList)) {
+            stateView.showEmpty();
+        } else {
+            datas.addAll(0, newsList);
+            newsAdapter.notifyDataSetChanged();
+            stateView.showContent();
+            smartRefreshLayout.finishRefresh();
+        }
     }
 
     @Override

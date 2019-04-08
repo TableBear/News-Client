@@ -1,17 +1,13 @@
 package com.hzx.news.presenter;
 
-import com.google.gson.Gson;
 import com.hzx.news.model.NewsResponse;
 import com.hzx.news.model.entity.News;
 import com.hzx.news.presenter.View.NewsListView;
 import com.hzx.news.ui.base.BasePresenter;
-import com.hzx.news.utils.ListUtils;
 import com.socks.library.KLog;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import rx.Observable;
 import rx.Subscriber;
 
 /**
