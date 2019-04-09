@@ -20,6 +20,13 @@ android {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
     }
+    android.applicationVariants.all {
+        variant ->
+            variant.outputs.all {
+                //在这里修改apk文件名
+                outputFileName = "${defaultConfig.applicationId}-${buildType.name}-v${variant.versionName}.apk"
+            }
+    }
 }
 
 dependencies {
