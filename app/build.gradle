@@ -62,6 +62,8 @@ dependencies {
     //SmartRefresh
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5-alpha-3'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.5-alpha-3'
+    //CircleImageview
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
     //Parallaxbacklayout
 //    implementation 'com.github.anzewei:parallaxbacklayout:1.1.6'
     testImplementation 'junit:junit:4.12'

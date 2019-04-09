@@ -14,7 +14,7 @@ import com.socks.library.KLog;
 import butterknife.ButterKnife;
 
 /**
- * @Description:
+ * @Description: 个人信息的Fragment
  * @Author: TableBear
  * @Date: 2019/4/8 0:55
  * @param:
