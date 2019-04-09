@@ -1,6 +1,7 @@
 package com.hzx.news.ui.activity;
 
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -54,8 +55,17 @@ public class WebViewActivity extends BaseActivity {
     public void initListener() {
         WebSettings settings = wvContent.getSettings();
         settings.setJavaScriptEnabled(true);
-
-
+        settings.setPluginState(WebSettings.PluginState.ON);
+        //支持视频播放
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
+//        settings.setPluginState(WebSettings.PluginState.ON);
+        settings.setUseWideViewPort(true); // 关键点
+        settings.setAllowFileAccess(true); // 允许访问文件
+        settings.setSupportZoom(true); // 支持缩放
+        settings.setLoadWithOverviewMode(true);
+        settings.setCacheMode(WebSettings.LOAD_NO_CACHE); // 不加载缓存内容
         wvContent.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {

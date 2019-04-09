@@ -8,6 +8,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/color_F3F5F4</item>
+        <item name="colorPrimaryDark">@color/color_BDBDBD</item>
+        <item name="colorAccent">@color/color_515051</item>
+    </style>
+
+
     <!--<style name="TextAppearanceHome" parent="TextAppearance.Design.Tab">-->
     <!--<item name="android:textSize">16sp</item>-->
     <!--</style>-->

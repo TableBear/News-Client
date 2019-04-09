@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -109,6 +110,7 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
 
     public void initView(View view) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(activity, DividerItemDecoration.VERTICAL));
     }
 
     @Override
@@ -154,9 +156,9 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
 
     @Override
     public void onSuccess(List<News> newsList) {
+        smartRefreshLayout.finishRefresh();
         if (ListUtils.isEmpty(newsList)) {
             tipView.show("暂时没有新数据");
-            smartRefreshLayout.finishRefresh();
             if (ListUtils.isEmpty(datas)) {
                 stateView.showEmpty();
             } else {
@@ -166,7 +168,6 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
             datas.addAll(0, newsList);
             newsAdapter.notifyDataSetChanged();
             tipView.show("有" + newsList.size() + "条新数据");
-            smartRefreshLayout.finishRefresh();
             stateView.showContent();
         }
 
