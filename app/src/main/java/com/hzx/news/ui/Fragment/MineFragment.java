@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hzx.news.R;
+import com.hzx.news.ui.base.BaseFragment;
+import com.hzx.news.ui.base.BasePresenter;
 import com.hzx.news.ui.base.LazyLoadFragment;
 import com.socks.library.KLog;
 
@@ -21,14 +23,21 @@ import butterknife.ButterKnife;
  * @return:
  * @throws:
  */
-public class MineFragment extends LazyLoadFragment {
+public class MineFragment extends BaseFragment {
 
-    @Nullable
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_mine, container, false);
-        KLog.i("MineFragment:", "创建成功");
-        ButterKnife.bind(view);
-        return view;
+    public int getLayoutId() {
+        return R.layout.fragment_mine;
+    }
+
+    @Override
+    protected BasePresenter createPresenter() {
+        return null;
+    }
+
+    @Override
+    protected void loadDate() {
+
     }
 }
