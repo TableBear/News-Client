@@ -103,9 +103,17 @@ public class NewsDetailActivity extends BaseActivity {
             public void onPageFinished(WebView view, String url) {
                 pbLoading.setVisibility(View.GONE);
                 System.out.println("网页加载完成");
-                view.loadUrl("javascript:window.local_obj.showSource('<head>'+"
-                        + "document.getElementsByTagName('html')[0].innerHTML+'</head>');");
-                 stateView.showContent();
+//                view.loadUrl("javascript:window.local_obj.showSource('<head>'+"
+//                        + "document.getElementsByTagName('html')[0].innerHTML+'</head>');");
+                String jsFun = "javascript:function startHide(){\n" +
+                        "        document.getElementsByClassName('card-wrapper')[0].style.display='none';\n" +
+                        "        document.getElementsByClassName('btn-bottom-wrapper')[0].style.display='none';\n" +
+                        "};";
+                //注入 js函数
+                view.loadUrl(jsFun);
+                //调用 js函数
+                view.loadUrl("javascript:startHide();");
+                stateView.showContent();
             }
         });
 
