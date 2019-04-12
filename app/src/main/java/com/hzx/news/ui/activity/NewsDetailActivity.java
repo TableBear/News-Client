@@ -54,6 +54,12 @@ public class NewsDetailActivity extends BaseActivity {
     @BindView(R.id.iv_share)
     ImageView ivShare;
 
+    @BindView(R.id.iv_like)
+    ImageView ivLike;
+
+    private boolean isCollect = false;
+    private boolean isLike = false;
+
     @Override
     protected BasePresenter createPresenter() {
         return null;
@@ -169,8 +175,15 @@ public class NewsDetailActivity extends BaseActivity {
 
     @OnClick(R.id.iv_collect)
     public void onCollectClicked() {
-        Toast.makeText(this, "点击了收藏", Toast.LENGTH_SHORT).show();
-        ivCollect.setImageResource(R.mipmap.my_collect);
+        if (!isCollect) {
+            Toast.makeText(this, "点击了收藏", Toast.LENGTH_SHORT).show();
+            ivCollect.setImageResource(R.mipmap.my_collect);
+            isCollect = true;
+        } else {
+            Toast.makeText(this, "取消了收藏", Toast.LENGTH_SHORT).show();
+            ivCollect.setImageResource(R.mipmap.new_love_tabbar);
+            isCollect = false;
+        }
     }
 
     @OnClick(R.id.iv_share)
@@ -180,5 +193,18 @@ public class NewsDetailActivity extends BaseActivity {
         textIntent.putExtra(Intent.EXTRA_TEXT, wvContent.getUrl());
         startActivity(Intent.createChooser(textIntent, "分享"));
 
+    }
+
+    @OnClick(R.id.iv_like)
+    public void onLikeClicked() {
+        if (isLike) {
+            Toast.makeText(this, "取消点赞", Toast.LENGTH_SHORT).show();
+            ivLike.setImageResource(R.mipmap.like);
+            isLike = false;
+        } else {
+            Toast.makeText(this, "点了一赞", Toast.LENGTH_SHORT).show();
+            ivLike.setImageResource(R.mipmap.liked);
+            isLike = true;
+        }
     }
 }
