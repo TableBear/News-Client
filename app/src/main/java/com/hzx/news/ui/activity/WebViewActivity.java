@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -25,7 +26,6 @@ public class WebViewActivity extends BaseActivity {
 
     public static final String URL = "url";
 
-    StateView stateView;
 
     @BindView(R.id.iv_back)
     ImageView ivBack;
@@ -39,8 +39,6 @@ public class WebViewActivity extends BaseActivity {
     @BindView(R.id.wv_content)
     WebView wvContent;
 
-    @BindView(R.id.fl_content)
-    LinearLayout content;
 
 
     @Override
@@ -56,7 +54,6 @@ public class WebViewActivity extends BaseActivity {
     @Override
     public void initView() {
         super.initView();
-
     }
 
     @Override

@@ -4,14 +4,18 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.github.nukc.stateview.StateView;
 import com.hzx.news.R;
 import com.hzx.news.ui.base.BaseActivity;
 import com.hzx.news.ui.base.BasePresenter;
@@ -22,6 +26,8 @@ import butterknife.OnClick;
 public class NewsDetailActivity extends BaseActivity {
 
     public static final String URL = "url";
+
+    StateView stateView;
 
     @BindView(R.id.iv_back)
     ImageView ivBack;
@@ -35,6 +41,9 @@ public class NewsDetailActivity extends BaseActivity {
     @BindView(R.id.wv_content)
     WebView wvContent;
 
+    @BindView(R.id.fl_content)
+    FrameLayout content;
+
     @Override
     protected BasePresenter createPresenter() {
         return null;
@@ -46,15 +55,32 @@ public class NewsDetailActivity extends BaseActivity {
     }
 
     @Override
+    public void initView() {
+        super.initView();
+        stateView = StateView.inject(content);
+        stateView.setLoadingResource(R.layout.page_loading);
+        stateView.setRetryResource(R.layout.page_net_error);
+    }
+
+    @Override
     public void initData() {
         String url = getIntent().getStringExtra(URL);
         wvContent.loadUrl(url);
+    }
+
+    final class InJavaScriptLocalObj {
+        @JavascriptInterface
+        public void showSource(String html) {
+            System.out.println("网页源码");
+            System.out.println(html);
+        }
     }
 
     @Override
     public void initListener() {
         WebSettings settings = wvContent.getSettings();
         settings.setJavaScriptEnabled(true);
+        wvContent.addJavascriptInterface(new InJavaScriptLocalObj(), "local_obj");
         settings.setPluginState(WebSettings.PluginState.ON);
         //支持视频播放
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -69,12 +95,17 @@ public class NewsDetailActivity extends BaseActivity {
         wvContent.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                System.out.println("网页开始加载");
                 pbLoading.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 pbLoading.setVisibility(View.GONE);
+                System.out.println("网页加载完成");
+                view.loadUrl("javascript:window.local_obj.showSource('<head>'+"
+                        + "document.getElementsByTagName('html')[0].innerHTML+'</head>');");
+                 stateView.showContent();
             }
         });
 
