@@ -21,6 +21,7 @@ import com.hzx.news.R;
 import com.hzx.news.model.entity.News;
 import com.hzx.news.presenter.NewsListPresenter;
 import com.hzx.news.presenter.View.NewsListView;
+import com.hzx.news.ui.activity.NewsDetailActivity;
 import com.hzx.news.ui.activity.WebViewActivity;
 import com.hzx.news.ui.base.BaseFragment;
 import com.hzx.news.ui.uikit.GlideUtils;
@@ -123,8 +124,8 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
             @Override
             public void click(int position, View view) {
                 System.out.println("点击了");
-                Intent intent = new Intent(activity, WebViewActivity.class);
-                intent.putExtra(WebViewActivity.URL, newsAdapter.list.get(position).getArticleUrl());
+                Intent intent = new Intent(activity, NewsDetailActivity.class);
+                intent.putExtra(NewsDetailActivity.URL, newsAdapter.list.get(position).getArticleUrl());
                 startActivity(intent);
             }
         });

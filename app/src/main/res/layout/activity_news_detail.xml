@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/white"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <include layout="@layout/include_top"/>
 
@@ -16,13 +16,25 @@
         android:orientation="vertical"
         >
 
-        <!--<android.support.v7.widget.RecyclerView-->
+        <!--<com.chaychan.uikit.powerfulrecyclerview.PowerfulRecyclerView-->
             <!--android:id="@+id/rv_comment"-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="match_parent"-->
             <!--app:dividerColor="@color/white"-->
             <!--/>-->
+        <ProgressBar
+            android:id="@+id/pb_loading"
+            style="@style/StyleProgressBarMini"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@drawable/shape_progressbar_bg"
+            />
 
+        <WebView
+            android:id="@+id/wv_content"
+            android:hardwareAccelerated="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></WebView>
 
     </FrameLayout>
 
