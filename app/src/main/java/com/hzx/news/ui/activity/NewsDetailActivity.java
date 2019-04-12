@@ -1,11 +1,14 @@
 package com.hzx.news.ui.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -14,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.nukc.stateview.StateView;
 import com.hzx.news.R;
@@ -44,6 +48,12 @@ public class NewsDetailActivity extends BaseActivity {
     @BindView(R.id.fl_content)
     FrameLayout content;
 
+    @BindView(R.id.iv_collect)
+    ImageView ivCollect;
+
+    @BindView(R.id.iv_share)
+    ImageView ivShare;
+
     @Override
     protected BasePresenter createPresenter() {
         return null;
@@ -68,19 +78,19 @@ public class NewsDetailActivity extends BaseActivity {
         wvContent.loadUrl(url);
     }
 
-    final class InJavaScriptLocalObj {
-        @JavascriptInterface
-        public void showSource(String html) {
-            System.out.println("网页源码");
-            System.out.println(html);
-        }
-    }
+//    final class InJavaScriptLocalObj {
+//        @JavascriptInterface
+//        public void showSource(String html) {
+//            System.out.println("网页源码");
+//            System.out.println(html);
+//        }
+//    }
 
     @Override
     public void initListener() {
         WebSettings settings = wvContent.getSettings();
         settings.setJavaScriptEnabled(true);
-        wvContent.addJavascriptInterface(new InJavaScriptLocalObj(), "local_obj");
+//        wvContent.addJavascriptInterface(new InJavaScriptLocalObj(), "local_obj");
         settings.setPluginState(WebSettings.PluginState.ON);
         //支持视频播放
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -115,6 +125,20 @@ public class NewsDetailActivity extends BaseActivity {
                 view.loadUrl("javascript:startHide();");
                 stateView.showContent();
             }
+
+            //加载完成的时候会回调
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+                stateView.showRetry();
+            }
+
+            //加载完成的时候会回调
+            @Override
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                super.onReceivedError(view, errorCode, description, failingUrl);
+                stateView.showRetry();
+            }
         });
 
         wvContent.setWebChromeClient(new WebChromeClient() {
@@ -141,5 +165,20 @@ public class NewsDetailActivity extends BaseActivity {
     @OnClick(R.id.iv_back)
     public void onViewClicked() {
         finish();
+    }
+
+    @OnClick(R.id.iv_collect)
+    public void onCollectClicked() {
+        Toast.makeText(this, "点击了收藏", Toast.LENGTH_SHORT).show();
+        ivCollect.setImageResource(R.mipmap.my_collect);
+    }
+
+    @OnClick(R.id.iv_share)
+    public void onShareClicked() {
+        Intent textIntent = new Intent(Intent.ACTION_SEND);
+        textIntent.setType("text/plain");
+        textIntent.putExtra(Intent.EXTRA_TEXT, wvContent.getUrl());
+        startActivity(Intent.createChooser(textIntent, "分享"));
+
     }
 }
