@@ -9,9 +9,11 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.github.nukc.stateview.StateView;
 import com.hzx.news.R;
 import com.hzx.news.ui.base.BaseActivity;
 import com.hzx.news.ui.base.BasePresenter;
@@ -22,6 +24,8 @@ import butterknife.OnClick;
 public class WebViewActivity extends BaseActivity {
 
     public static final String URL = "url";
+
+    StateView stateView;
 
     @BindView(R.id.iv_back)
     ImageView ivBack;
@@ -35,6 +39,10 @@ public class WebViewActivity extends BaseActivity {
     @BindView(R.id.wv_content)
     WebView wvContent;
 
+    @BindView(R.id.fl_content)
+    LinearLayout content;
+
+
     @Override
     protected BasePresenter createPresenter() {
         return null;
@@ -43,6 +51,12 @@ public class WebViewActivity extends BaseActivity {
     @Override
     protected int provideContentViewId() {
         return R.layout.activity_web_view;
+    }
+
+    @Override
+    public void initView() {
+        super.initView();
+
     }
 
     @Override
@@ -60,7 +74,6 @@ public class WebViewActivity extends BaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
-//        settings.setPluginState(WebSettings.PluginState.ON);
         settings.setUseWideViewPort(true); // 关键点
         settings.setAllowFileAccess(true); // 允许访问文件
         settings.setSupportZoom(true); // 支持缩放

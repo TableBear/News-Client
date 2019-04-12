@@ -6,41 +6,40 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <include layout="@layout/include_top"/>
+    <include layout="@layout/include_top" />
 
-    <FrameLayout
+    <ProgressBar
+        android:id="@+id/pb_loading"
+        style="@style/StyleProgressBarMini"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@drawable/shape_progressbar_bg" />
+
+    <LinearLayout
         android:id="@+id/fl_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <!--<com.chaychan.uikit.powerfulrecyclerview.PowerfulRecyclerView-->
-            <!--android:id="@+id/rv_comment"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--app:dividerColor="@color/white"-->
-            <!--/>-->
-        <ProgressBar
-            android:id="@+id/pb_loading"
-            style="@style/StyleProgressBarMini"
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="@drawable/shape_progressbar_bg"
-            />
+        <!--android:id="@+id/rv_comment"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--app:dividerColor="@color/white"-->
+        <!--/>-->
 
         <WebView
             android:id="@+id/wv_content"
-            android:hardwareAccelerated="true"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></WebView>
+            android:layout_height="match_parent"
+            android:hardwareAccelerated="true"></WebView>
 
-    </FrameLayout>
+    </LinearLayout>
 
     <include
+        layout="@layout/include_news_detail_tool_bar"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        layout="@layout/include_news_detail_tool_bar"/>
+        android:layout_height="45dp" />
 
 </LinearLayout>
