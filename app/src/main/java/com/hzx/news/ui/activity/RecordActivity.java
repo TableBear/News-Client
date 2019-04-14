@@ -16,7 +16,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.hzx.news.R;
 import com.hzx.news.model.entity.News;
+import com.hzx.news.presenter.CollectPresenter;
 import com.hzx.news.presenter.HistoryPresenter;
+import com.hzx.news.presenter.LikePresenter;
+import com.hzx.news.presenter.RecordPresenter;
 import com.hzx.news.presenter.View.NewsListView;
 import com.hzx.news.ui.base.BaseActivity;
 import com.hzx.news.ui.uikit.GlideUtils;
@@ -29,7 +32,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class HistoryActivity extends BaseActivity<HistoryPresenter> implements NewsListView {
+public class RecordActivity extends BaseActivity<RecordPresenter> implements NewsListView {
 
 
     @BindView(R.id.rv_content)
@@ -39,14 +42,30 @@ public class HistoryActivity extends BaseActivity<HistoryPresenter> implements N
     private List<News> datas;
     private SimpleDateFormat sdf;
 
+    private int flag;
+
     @Override
-    protected HistoryPresenter createPresenter() {
-        return new HistoryPresenter(this);
+    public void beforCreatePresenter(Intent intent) {
+        super.beforCreatePresenter(intent);
+        flag = intent.getIntExtra("flag", 0);
+    }
+
+    @Override
+    protected RecordPresenter createPresenter() {
+        switch (flag) {
+            case 1:
+                return new HistoryPresenter(this);
+            case 2:
+                return new CollectPresenter(this);
+            default:
+                return new LikePresenter(this);
+        }
+
     }
 
     @Override
     protected int provideContentViewId() {
-        return R.layout.activity_history;
+        return R.layout.activity_record;
     }
 
 
@@ -66,10 +85,7 @@ public class HistoryActivity extends BaseActivity<HistoryPresenter> implements N
         super.initData();
         sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         stateView.showLoading();
-        presenter.getHistory();
-//        if (!ListUtils.isEmpty(datas)) {
-//            stateView.showContent();
-//        }
+        presenter.getData();
     }
 
     @Override

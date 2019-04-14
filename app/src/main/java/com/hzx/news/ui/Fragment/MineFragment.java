@@ -1,23 +1,14 @@
 package com.hzx.news.ui.Fragment;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hzx.news.R;
-import com.hzx.news.ui.activity.HistoryActivity;
+import com.hzx.news.ui.activity.RecordActivity;
 import com.hzx.news.ui.base.BaseFragment;
 import com.hzx.news.ui.base.BasePresenter;
-import com.hzx.news.ui.base.LazyLoadFragment;
-import com.socks.library.KLog;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -34,6 +25,8 @@ public class MineFragment extends BaseFragment {
     TextView tvHistory;
     @BindView(R.id.tv_collect)
     TextView tvCollect;
+    @BindView(R.id.tv_like)
+    TextView tvLike;
 
     @Override
     public int getLayoutId() {
@@ -52,13 +45,22 @@ public class MineFragment extends BaseFragment {
 
     @OnClick(R.id.tv_history)
     public void historyClick() {
-        Intent intent = new Intent(getContext(), HistoryActivity.class);
+        Intent intent = new Intent(getContext(), RecordActivity.class);
+        intent.putExtra("flag", 1);
         startActivity(intent);
     }
 
     @OnClick(R.id.tv_collect)
     public void collectClick() {
-        Intent intent = new Intent(getContext(), HistoryActivity.class);
+        Intent intent = new Intent(getContext(), RecordActivity.class);
+        intent.putExtra("flag", 2);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.tv_like)
+    public void likeClick() {
+        Intent intent = new Intent(getContext(), RecordActivity.class);
+        intent.putExtra("flag", 3);
         startActivity(intent);
     }
 }

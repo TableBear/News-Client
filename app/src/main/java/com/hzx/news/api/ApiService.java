@@ -19,6 +19,7 @@ public interface ApiService {
     String POST_OPT_COLLECT = "opt/click";
     String GET_REC_COLLECT = "record/collect";
     String GET_REC_HISTORY = "record/history";
+    String GET_REC_LIKE = "record/like";
     String POST_REGISTER_EMAIL = "user/register/email";
 
 
@@ -38,4 +39,9 @@ public interface ApiService {
     @GET(GET_REC_HISTORY)
     Observable<List<News>> getHistory();
 
+    @GET(GET_REC_COLLECT)
+    Observable<List<News>> getCollect();
+
+    @GET(GET_REC_LIKE)
+    Observable<List<News>> getLike();
 }

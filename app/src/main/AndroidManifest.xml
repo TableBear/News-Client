@@ -39,7 +39,7 @@
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.activity.HistoryActivity"></activity>
+        <activity android:name=".ui.activity.RecordActivity"></activity>
     </application>
 
 </manifest>

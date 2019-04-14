@@ -179,10 +179,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:drawableTop="@mipmap/night_mode"
+                        android:drawableTop="@mipmap/mine_like"
                         android:drawablePadding="5dp"
                         android:gravity="center"
-                        android:text="@string/night"
+                        android:text="@string/like"
                         android:textColor="@color/color_222222"
                         android:textSize="12sp" />
 

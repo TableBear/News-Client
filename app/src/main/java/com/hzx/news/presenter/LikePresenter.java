@@ -1,9 +1,7 @@
 package com.hzx.news.presenter;
 
-import com.hzx.news.model.NewsResponse;
 import com.hzx.news.model.entity.News;
 import com.hzx.news.presenter.View.NewsListView;
-import com.hzx.news.ui.base.BasePresenter;
 import com.socks.library.KLog;
 
 import java.util.List;
@@ -13,20 +11,20 @@ import rx.Subscriber;
 /**
  * @Description:
  * @Author: TableBear
- * @Date: 2019/4/14 14:37
+ * @Date: 2019/4/14 17:16
  * @param:
  * @return:
  * @throws:
  */
-public class HistoryPresenter extends RecordPresenter {
+public class LikePresenter extends RecordPresenter {
 
-
-    public HistoryPresenter(NewsListView view) {
+    public LikePresenter(NewsListView view) {
         super(view);
     }
 
+    @Override
     public void getData() {
-        addSubscription(apiService.getHistory(), new Subscriber<List<News>>() {
+        addSubscription(apiService.getLike(), new Subscriber<List<News>>() {
             @Override
             public void onCompleted() {
                 KLog.i("加载成功");

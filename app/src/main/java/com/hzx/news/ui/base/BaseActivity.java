@@ -1,6 +1,7 @@
 package com.hzx.news.ui.base;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -44,33 +45,15 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     public final void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        if (enableSlideClose()) {
-//            ParallaxBackLayout layout = ParallaxHelper.getParallaxBackLayout(this, true);
-//            layout.setEdgeMode(EDGE_MODE_DEFAULT);//边缘滑动
-//            layout.setEdgeFlag(getEdgeDirection());
-//            layout.setLayoutType(getSlideLayoutType(),null);
-//
-//            layout.setSlideCallback(new ParallaxBackLayout.ParallaxSlideCallback() {
-//                @Override
-//                public void onStateChanged(int state) {
-//                    //收起软键盘
-//                    UIUtils.hideInput(getWindow().getDecorView());
-//                }
-//
-//                @Override
-//                public void onPositionChanged(float percent) {
-//
-//                }
-//            });
-//        }
-
         this.savedInstanceState = savedInstanceState;
 
         //初始化的时候将其添加到集合中
         synchronized (mActivities) {
             mActivities.add(this);
         }
-
+        //获取传过来的数据
+        Intent intent = getIntent();
+        beforCreatePresenter(intent);
         presenter = createPresenter();
 
         //子类不再需要设置布局ID，也不再需要使用ButterKnife.bind()
@@ -102,6 +85,10 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 //    public int getSlideLayoutType() {
 //        return LAYOUT_COVER;
 //    }
+
+    public void beforCreatePresenter(Intent intent) {
+
+    }
 
     public void initView() {
     }
