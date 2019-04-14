@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.view.KeyEvent;
 import android.view.View;
-import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -14,24 +13,30 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.nukc.stateview.StateView;
 import com.hzx.news.R;
+import com.hzx.news.model.entity.OptStatus;
+import com.hzx.news.presenter.OperationPresenter;
+import com.hzx.news.presenter.View.NewsDetailView;
 import com.hzx.news.ui.base.BaseActivity;
 import com.hzx.news.ui.base.BasePresenter;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class NewsDetailActivity extends BaseActivity {
+public class NewsDetailActivity extends BaseActivity<OperationPresenter> implements NewsDetailView {
 
     public static final String URL = "url";
+    public static final String NID = "nid";
 
     StateView stateView;
+
+    String url;
+    String nid;
 
     @BindView(R.id.iv_back)
     ImageView ivBack;
@@ -61,8 +66,8 @@ public class NewsDetailActivity extends BaseActivity {
     private boolean isLike = false;
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected OperationPresenter createPresenter() {
+        return new OperationPresenter(this);
     }
 
     @Override
@@ -80,8 +85,11 @@ public class NewsDetailActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        String url = getIntent().getStringExtra(URL);
+        url = getIntent().getStringExtra(URL);
+        nid = getIntent().getStringExtra(NID);
         wvContent.loadUrl(url);
+        presenter.click(nid);
+        presenter.getOptStatus(nid);
     }
 
 //    final class InJavaScriptLocalObj {
@@ -97,6 +105,7 @@ public class NewsDetailActivity extends BaseActivity {
         WebSettings settings = wvContent.getSettings();
         settings.setJavaScriptEnabled(true);
 //        wvContent.addJavascriptInterface(new InJavaScriptLocalObj(), "local_obj");
+
         settings.setPluginState(WebSettings.PluginState.ON);
         //支持视频播放
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -176,13 +185,9 @@ public class NewsDetailActivity extends BaseActivity {
     @OnClick(R.id.iv_collect)
     public void onCollectClicked() {
         if (!isCollect) {
-            Toast.makeText(this, "点击了收藏", Toast.LENGTH_SHORT).show();
-            ivCollect.setImageResource(R.mipmap.my_collect);
-            isCollect = true;
+            presenter.collect(nid);
         } else {
-            Toast.makeText(this, "取消了收藏", Toast.LENGTH_SHORT).show();
-            ivCollect.setImageResource(R.mipmap.new_love_tabbar);
-            isCollect = false;
+            presenter.cancleCollect(nid);
         }
     }
 
@@ -197,14 +202,75 @@ public class NewsDetailActivity extends BaseActivity {
 
     @OnClick(R.id.iv_like)
     public void onLikeClicked() {
-        if (isLike) {
-            Toast.makeText(this, "取消点赞", Toast.LENGTH_SHORT).show();
-            ivLike.setImageResource(R.mipmap.like);
-            isLike = false;
+        if (!isLike) {
+            presenter.like(nid);
         } else {
-            Toast.makeText(this, "点了一赞", Toast.LENGTH_SHORT).show();
-            ivLike.setImageResource(R.mipmap.liked);
-            isLike = true;
+            presenter.cancleLike(nid);
         }
+    }
+
+    @Override
+    public void onCollectSuccess() {
+        Toast.makeText(this, "点击了收藏", Toast.LENGTH_SHORT).show();
+        ivCollect.setImageResource(R.mipmap.my_collect);
+        isCollect = true;
+    }
+
+    @Override
+    public void onCollectError() {
+        Toast.makeText(this, "收藏失败", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onLikeSuccess() {
+        Toast.makeText(this, "点了一赞", Toast.LENGTH_SHORT).show();
+        ivLike.setImageResource(R.mipmap.liked);
+        isLike = true;
+    }
+
+    @Override
+    public void onLikeError() {
+        Toast.makeText(this, "点赞失败", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onCancleCollectSuccess() {
+        Toast.makeText(this, "取消了收藏", Toast.LENGTH_SHORT).show();
+        ivCollect.setImageResource(R.mipmap.new_love_tabbar);
+        isCollect = false;
+    }
+
+    @Override
+    public void onCancleCollectError() {
+        Toast.makeText(this, "取消收藏失败", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onCancleLikeSuccess() {
+        Toast.makeText(this, "取消点赞", Toast.LENGTH_SHORT).show();
+        ivLike.setImageResource(R.mipmap.like);
+        isLike = false;
+    }
+
+    @Override
+    public void onCancleLikeError() {
+        Toast.makeText(this, "取消点赞失败", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onGetStatusSuccess(OptStatus status) {
+        isCollect = status.getIsCollect();
+        if (isCollect) {
+            ivCollect.setImageResource(R.mipmap.my_collect);
+        }
+        isLike = status.getIsLike();
+        if (isLike) {
+            ivLike.setImageResource(R.mipmap.liked);
+        }
+    }
+
+    @Override
+    public void onGetStatusError() {
+
     }
 }

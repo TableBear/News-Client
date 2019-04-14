@@ -2,7 +2,6 @@ package com.hzx.news.presenter;
 
 import com.hzx.news.model.entity.News;
 import com.hzx.news.presenter.View.NewsListView;
-import com.hzx.news.ui.base.BasePresenter;
 import com.socks.library.KLog;
 
 import java.util.List;

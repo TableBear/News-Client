@@ -126,6 +126,7 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
                 System.out.println("点击了");
                 Intent intent = new Intent(activity, NewsDetailActivity.class);
                 intent.putExtra(NewsDetailActivity.URL, newsAdapter.list.get(position).getArticleUrl());
+                intent.putExtra(NewsDetailActivity.NID, newsAdapter.list.get(position).getNid());
                 startActivity(intent);
             }
         });
@@ -181,13 +182,6 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
         }
         tipView.show("网络出现问题");
     }
-
-
-//    @Override
-//    public void onHiddenChanged(boolean hidden) {
-//        super.onHiddenChanged(hidden);
-//        loadDate();
-//    }
 
     private class NewsHolder extends RecyclerView.ViewHolder {
         public TextView tvTitle;

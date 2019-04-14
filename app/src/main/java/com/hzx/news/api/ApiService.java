@@ -2,6 +2,7 @@ package com.hzx.news.api;
 
 import com.hzx.news.model.NewsResponse;
 import com.hzx.news.model.entity.News;
+import com.hzx.news.model.entity.OptStatus;
 
 import java.util.List;
 
@@ -16,12 +17,17 @@ import rx.Observable;
 public interface ApiService {
     String GET_NEWS_LIST = "api/news";
     String GET_CATES_LIST = "api/cates";
-    String POST_OPT_COLLECT = "opt/click";
+    String POST_OPT_COLLECT = "opt/collect";
+    String POST_OPT_LIKE = "opt/like";
+    String POST_OPT_CLICK = "opt/click";
+    String POST_OPT_CANCLECOLLECT = "opt/cancleCollect";
+    String POST_OPT_CANCLELIKE = "opt/cancleLike";
+    String GET_OPT_STATUS = "opt/status";
     String GET_REC_COLLECT = "record/collect";
     String GET_REC_HISTORY = "record/history";
     String GET_REC_LIKE = "record/like";
     String POST_REGISTER_EMAIL = "user/register/email";
-
+    String POST_LOGIN_EMAIL = "user/login/email";
 
     /**
      * 获取新闻列表
@@ -36,6 +42,22 @@ public interface ApiService {
     @POST(POST_OPT_COLLECT)
     Observable<String> postCollect(@Field("nid") String nid);
 
+    @FormUrlEncoded
+    @POST(POST_OPT_LIKE)
+    Observable<String> postLike(@Field("nid") String nid);
+
+    @FormUrlEncoded
+    @POST(POST_OPT_CANCLECOLLECT)
+    Observable<String> postCancleCollect(@Field("nid") String nid);
+
+    @FormUrlEncoded
+    @POST(POST_OPT_CANCLELIKE)
+    Observable<String> postCancleLike(@Field("nid") String nid);
+
+    @FormUrlEncoded
+    @POST(POST_OPT_CLICK)
+    Observable<String> postClick(@Field("nid") String nid);
+
     @GET(GET_REC_HISTORY)
     Observable<List<News>> getHistory();
 
@@ -44,4 +66,7 @@ public interface ApiService {
 
     @GET(GET_REC_LIKE)
     Observable<List<News>> getLike();
+
+    @GET(GET_OPT_STATUS)
+    Observable<OptStatus> getOptStatus(@Query("nid") String nid);
 }
