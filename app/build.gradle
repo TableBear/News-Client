@@ -27,6 +27,7 @@ android {
                 outputFileName = "${defaultConfig.applicationId}-${buildType.name}-v${variant.versionName}.apk"
             }
     }
+    sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/res/assets/'] } }
 }
 
 dependencies {
@@ -66,7 +67,8 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.0.0'
     //Jsoup
     implementation group: 'org.jsoup', name: 'jsoup', version: '1.8.3'
-
+    //LitePal
+    implementation 'org.litepal.android:java:3.0.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

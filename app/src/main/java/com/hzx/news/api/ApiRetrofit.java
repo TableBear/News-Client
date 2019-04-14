@@ -2,10 +2,15 @@ package com.hzx.news.api;
 
 import com.google.gson.GsonBuilder;
 import com.hzx.news.app.NewsApp;
+import com.hzx.news.model.entity.Token;
 import com.hzx.news.utils.NetWorkUtils;
 import com.socks.library.KLog;
 
+import org.litepal.LitePal;
+import org.litepal.crud.callback.FindMultiCallback;
+
 import java.io.File;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
@@ -25,9 +30,11 @@ public class ApiRetrofit {
     private Retrofit mRetrofit;
     private OkHttpClient mClient;
     private ApiService mApiService;
+    //    private Token token;
+    private Token token = new Token("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0In0.m5bgpAHEMrSz3Jhs3RJ81XrG_aggabfo9SWQeYkixTE");
 
     //缓存配置
-    private Interceptor mCacheInterceptor = chain -> {
+    private Interceptor cacheInterceptor = chain -> {
 
         CacheControl.Builder cacheBuilder = new CacheControl.Builder();
         cacheBuilder.maxAge(0, TimeUnit.SECONDS);
@@ -59,7 +66,7 @@ public class ApiRetrofit {
     /**
      * 请求访问request和response拦截器
      */
-    private Interceptor mLogInterceptor = chain -> {
+    private Interceptor logInterceptor = chain -> {
         Request request = chain.request();
         long startTime = System.currentTimeMillis();
         okhttp3.Response response = chain.proceed(chain.request());
@@ -77,20 +84,31 @@ public class ApiRetrofit {
     };
 
     /**
-     * 增加头部信息的拦截器
+     * 增加头部信息的拦截器以及Cookies拦截器
      */
-    private Interceptor mHeaderInterceptor = chain -> {
+    private Interceptor headerInterceptor = chain -> {
         Request.Builder builder = chain.request().newBuilder();
         builder.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.108 Safari/537.36 2345Explorer/8.0.0.13547");
         builder.addHeader("Cache-Control", "max-age=0");
         builder.addHeader("Upgrade-Insecure-Requests", "1");
         builder.addHeader("X-Requested-With", "XMLHttpRequest");
-        builder.addHeader("Cookie", "uuid=\"w:f2e0e469165542f8a3960f67cb354026\"; __tasessionId=4p6q77g6q1479458262778; csrftoken=7de2dd812d513441f85cf8272f015ce5; tt_webid=36385357187");
+        if (token != null) {
+            builder.addHeader("Cookie", "token=" + token.getToken());
+        }
+//      builder.addHeader("Cookie", "uuid=\"w:f2e0e469165542f8a3960f67cb354026\"; __tasessionId=4p6q77g6q1479458262778; csrftoken=7de2dd812d513441f85cf8272f015ce5; tt_webid=36385357187");
         return chain.proceed(builder.build());
     };
 
 
     public ApiRetrofit() {
+        LitePal.findAllAsync(Token.class).listen(new FindMultiCallback<Token>() {
+            @Override
+            public void onFinish(List<Token> list) {
+                if (list.size() > 1) {
+                    token = list.get(0);
+                }
+            }
+        });
         //cache url
         File httpCacheDirectory = new File(NewsApp.getContext().getCacheDir(), "responses");
         int cacheSize = 10 * 1024 * 1024; // 10 MiB
@@ -100,8 +118,9 @@ public class ApiRetrofit {
         //        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);//请求/响应行 + 头 + 体
 
         mClient = new OkHttpClient.Builder()
-                .addInterceptor(mHeaderInterceptor)//添加头部信息拦截器
-                .addInterceptor(mLogInterceptor)//添加log拦截器
+                .addInterceptor(headerInterceptor)//添加头部信息拦截器
+//                .addInterceptor(cacheInterceptor)
+                .addInterceptor(logInterceptor)//添加log拦截器
                 .cache(cache)
                 .connectTimeout(20, TimeUnit.SECONDS)
                 .readTimeout(20, TimeUnit.SECONDS)
@@ -114,7 +133,6 @@ public class ApiRetrofit {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())//支持RxJava
                 .client(mClient)
                 .build();
-
         mApiService = mRetrofit.create(ApiService.class);
     }
 
@@ -131,5 +149,14 @@ public class ApiRetrofit {
 
     public ApiService getApiService() {
         return mApiService;
+    }
+
+    public Token getToken() {
+        return token;
+    }
+
+    public void setToken(Token token) {
+        this.token = token;
+        token.saveAsync();
     }
 }

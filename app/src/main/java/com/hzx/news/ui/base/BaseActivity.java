@@ -32,12 +32,12 @@ import butterknife.ButterKnife;
 
 public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity {
 
-    protected T mPresenter;
+    protected T presenter;
     private static long mPreTime;
     private static Activity mCurrentActivity;// 对所有activity进行管理
     public static List<Activity> mActivities = new LinkedList<Activity>();
     protected Bundle savedInstanceState;
-    protected StateView mStateView;
+    protected StateView stateView;
     public PermissionListener mPermissionListener;
 
     @Override
@@ -71,7 +71,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             mActivities.add(this);
         }
 
-        mPresenter = createPresenter();
+        presenter = createPresenter();
 
         //子类不再需要设置布局ID，也不再需要使用ButterKnife.bind()
         setContentView(provideContentViewId());
@@ -139,8 +139,8 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             mActivities.remove(this);
         }
 
-        if (mPresenter != null) {
-            mPresenter.detachView();
+        if (presenter != null) {
+            presenter.detachView();
         }
     }
 

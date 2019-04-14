@@ -1,15 +1,26 @@
 package com.hzx.news.api;
 
 import com.hzx.news.model.NewsResponse;
+import com.hzx.news.model.entity.News;
 
+import java.util.List;
+
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
 
 
 public interface ApiService {
-    String GET_NEWS_LIST = "news";
-    String GET_CATES_LIST = "cates";
+    String GET_NEWS_LIST = "api/news";
+    String GET_CATES_LIST = "api/cates";
+    String POST_OPT_COLLECT = "opt/click";
+    String GET_REC_COLLECT = "record/collect";
+    String GET_REC_HISTORY = "record/history";
+    String POST_REGISTER_EMAIL = "user/register/email";
+
 
     /**
      * 获取新闻列表
@@ -19,5 +30,12 @@ public interface ApiService {
      */
     @GET(GET_NEWS_LIST)
     Observable<NewsResponse> getNewsList(@Query("cate") String cate, @Query("time") String time, @Query("limit") int limit);
+
+    @FormUrlEncoded
+    @POST(POST_OPT_COLLECT)
+    Observable<String> postCollect(@Field("nid") String nid);
+
+    @GET(GET_REC_HISTORY)
+    Observable<List<News>> getHistory();
 
 }
