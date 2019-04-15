@@ -31,16 +31,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class RecordActivity extends BaseActivity<RecordPresenter> implements NewsListView {
 
 
     @BindView(R.id.rv_content)
     RecyclerView recyclerView;
-
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
     private NewsAdapter newsAdapter;
     private List<News> datas;
     private SimpleDateFormat sdf;
+
 
     private int flag;
 
@@ -78,6 +81,13 @@ public class RecordActivity extends BaseActivity<RecordPresenter> implements New
         }
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        if (flag == 1) {
+            tvTitle.setText("历史记录");
+        } else if (flag == 2) {
+            tvTitle.setText("收藏");
+        } else {
+            tvTitle.setText("点赞");
+        }
     }
 
     @Override
@@ -197,5 +207,10 @@ public class RecordActivity extends BaseActivity<RecordPresenter> implements New
 
     private interface ItemClickListener {
         void click(int position, View view);
+    }
+
+    @OnClick(R.id.iv_back)
+    public void backClick() {
+        finish();
     }
 }

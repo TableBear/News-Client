@@ -42,7 +42,8 @@
         <activity
             android:name=".ui.activity.RecordActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.LoginActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
