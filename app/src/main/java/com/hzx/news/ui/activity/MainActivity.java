@@ -6,12 +6,17 @@ import android.support.v4.view.ViewPager;
 import com.chaychan.library.BottomBarItem;
 import com.chaychan.library.BottomBarLayout;
 import com.hzx.news.R;
+import com.hzx.news.app.NewsApp;
+import com.hzx.news.model.entity.Token;
 import com.hzx.news.ui.Fragment.HomeFragment;
 import com.hzx.news.ui.Fragment.MineFragment;
 import com.hzx.news.ui.Fragment.RecomFragment;
 import com.hzx.news.ui.adapter.MainTabAdapter;
 import com.hzx.news.ui.base.BaseActivity;
 import com.hzx.news.ui.base.BasePresenter;
+import com.socks.library.KLog;
+
+import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,5 +63,8 @@ public class MainActivity extends BaseActivity {
         fragments.add(new HomeFragment());
         fragments.add(new RecomFragment());
         fragments.add(new MineFragment());
+        NewsApp.token = LitePal.findFirst(Token.class);
+        KLog.i(NewsApp.token);
     }
+
 }

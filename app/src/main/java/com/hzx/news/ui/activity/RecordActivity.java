@@ -100,6 +100,7 @@ public class RecordActivity extends BaseActivity<RecordPresenter> implements New
                 System.out.println("点击了");
                 Intent intent = new Intent(getCurrentActivity(), NewsDetailActivity.class);
                 intent.putExtra(NewsDetailActivity.URL, newsAdapter.list.get(position).getArticleUrl());
+                intent.putExtra(NewsDetailActivity.NID, newsAdapter.list.get(position).getNid());
                 startActivity(intent);
             }
         });

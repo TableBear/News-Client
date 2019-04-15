@@ -23,7 +23,6 @@ import com.hzx.news.model.entity.OptStatus;
 import com.hzx.news.presenter.OperationPresenter;
 import com.hzx.news.presenter.View.NewsDetailView;
 import com.hzx.news.ui.base.BaseActivity;
-import com.hzx.news.ui.base.BasePresenter;
 
 import butterknife.BindView;
 import butterknife.OnClick;

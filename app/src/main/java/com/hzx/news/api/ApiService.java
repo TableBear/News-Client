@@ -1,6 +1,7 @@
 package com.hzx.news.api;
 
 import com.hzx.news.model.NewsResponse;
+import com.hzx.news.model.entity.LoginRegisterStatus;
 import com.hzx.news.model.entity.News;
 import com.hzx.news.model.entity.OptStatus;
 
@@ -69,4 +70,12 @@ public interface ApiService {
 
     @GET(GET_OPT_STATUS)
     Observable<OptStatus> getOptStatus(@Query("nid") String nid);
+
+    @FormUrlEncoded
+    @POST(POST_LOGIN_EMAIL)
+    Observable<LoginRegisterStatus> postLogin(@Field("email") String email, @Field("password") String password);
+
+    @FormUrlEncoded
+    @POST(POST_REGISTER_EMAIL)
+    Observable<LoginRegisterStatus> postRegister(@Field("unick") String unick, @Field("email") String email, @Field("password") String password);
 }
