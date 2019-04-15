@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="44dp"
     android:background="@color/white"
-    tools:showIn="@layout/activity_message">
+    tools:showIn="@layout/activity_setting">
 
     <ImageView
         android:id="@+id/iv_back"
@@ -16,17 +16,19 @@
         android:background="@drawable/selector_back"
         android:paddingLeft="10dp"
         android:scaleType="center"/>
+
     <TextView
         android:gravity="center"
         android:layout_alignParentRight="true"
         android:layout_marginRight="150dp"
-        android:text="系统消息"
+        android:text="编辑资料"
         android:textSize="20dp"
         android:layout_width="wrap_content"
         android:layout_height="match_parent" />
+
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="1dp"
         android:layout_alignParentBottom="true"
         android:background="@color/text_grey"/>
 </RelativeLayout>

@@ -12,6 +12,7 @@ public class LoginRegisterStatus {
     private String code;
     private String info;
     private String token;
+    private String nick;
 
     public String getCode() {
         return code;
@@ -35,6 +36,14 @@ public class LoginRegisterStatus {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getNick() {
+        return nick;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
     }
 }
 

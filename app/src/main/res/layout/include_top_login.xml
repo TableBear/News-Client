@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="44dp"
     android:background="@color/white"
-    tools:showIn="@layout/activity_message">
+    tools:showIn="@layout/activity_login">
 
     <ImageView
         android:id="@+id/iv_back"
@@ -15,18 +14,20 @@
         android:layout_centerVertical="true"
         android:background="@drawable/selector_back"
         android:paddingLeft="10dp"
-        android:scaleType="center"/>
+        android:scaleType="center" />
+
     <TextView
-        android:gravity="center"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="150dp"
-        android:text="系统消息"
-        android:textSize="20dp"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="180dp"
+        android:gravity="center"
+        android:text="登录"
+        android:textSize="20dp" />
+
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="1dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/text_grey"/>
+        android:background="@color/text_grey" />
 </RelativeLayout>

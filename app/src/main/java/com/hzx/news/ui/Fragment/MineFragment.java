@@ -9,8 +9,10 @@ import com.hzx.news.app.NewsApp;
 import com.hzx.news.ui.activity.LoginActivity;
 import com.hzx.news.ui.activity.MessageActivity;
 import com.hzx.news.ui.activity.RecordActivity;
+import com.hzx.news.ui.activity.SettingActivity;
 import com.hzx.news.ui.base.BaseFragment;
 import com.hzx.news.ui.base.BasePresenter;
+import com.socks.library.KLog;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -50,11 +52,22 @@ public class MineFragment extends BaseFragment {
     }
 
     @Override
+    public void initData() {
+        super.initData();
+        if (NewsApp.token != null) {
+            tvName.setText(NewsApp.token.getNick());
+        }
+    }
+
+    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
             if (NewsApp.token != null) {
-                tvName.setText("登录成功");
+                tvName.setText(NewsApp.token.getNick());
+                KLog.i(NewsApp.token.getNick());
+            } else {
+                tvName.setText("未登录");
             }
         } else {
 
@@ -65,7 +78,9 @@ public class MineFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         if (NewsApp.token != null) {
-            tvName.setText("登录成功");
+            tvName.setText(NewsApp.token.getNick());
+        } else {
+            tvName.setText("未登录");
         }
 
     }
@@ -93,13 +108,24 @@ public class MineFragment extends BaseFragment {
 
     @OnClick(R.id.iv_to_profile)
     public void toProfileClick() {
-        Intent intent = new Intent(getContext(), LoginActivity.class);
+        if (NewsApp.token == null) {
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(getContext(), SettingActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    @OnClick(R.id.iv_message)
+    public void messageClick() {
+        Intent intent = new Intent(getContext(), MessageActivity.class);
         startActivity(intent);
     }
 
-    @OnClick(R.id.tv_message)
-    public void messageClick() {
-        Intent intent = new Intent(getContext(), MessageActivity.class);
+    @OnClick(R.id.iv_setting)
+    public void settingClick() {
+        Intent intent = new Intent(getContext(), SettingActivity.class);
         startActivity(intent);
     }
 }

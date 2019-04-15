@@ -47,11 +47,17 @@ public class LoginActivity extends BaseActivity<LoginRegisterPresenter> implemen
         finish();
     }
 
+    @OnClick(R.id.iv_back)
+    public void backClick() {
+        finish();
+    }
+
     @Override
     public void onLoginAndRegisterSuccess(LoginRegisterStatus status) {
         if (status.getCode().equals("200")) {
             NewsApp.token = new Token();
             NewsApp.token.setToken(status.getToken());
+            NewsApp.token.setNick(status.getNick());
             KLog.i(NewsApp.token.getToken());
             NewsApp.token.saveAsync().listen(success -> {
                 if (success) {

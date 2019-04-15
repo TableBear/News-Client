@@ -4,6 +4,7 @@ import com.hzx.news.model.NewsResponse;
 import com.hzx.news.model.entity.LoginRegisterStatus;
 import com.hzx.news.model.entity.News;
 import com.hzx.news.model.entity.OptStatus;
+import com.hzx.news.model.entity.User;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ public interface ApiService {
     String GET_REC_LIKE = "record/like";
     String POST_REGISTER_EMAIL = "user/register/email";
     String POST_LOGIN_EMAIL = "user/login/email";
+    String GET_USER_INFO = "user/info";
 
     /**
      * 获取新闻列表
@@ -78,4 +80,8 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(POST_REGISTER_EMAIL)
     Observable<LoginRegisterStatus> postRegister(@Field("unick") String unick, @Field("email") String email, @Field("password") String password);
+
+    @GET(GET_USER_INFO)
+    Observable<User> getUserInfo();
+
 }

@@ -210,6 +210,7 @@
                         android:textColor="@color/color_222222" />
 
                     <ImageView
+                        android:id="@+id/iv_message"
                         style="@style/MineFunctionArrow"
                         android:background="@mipmap/setting_arrow" />
 
@@ -295,11 +296,13 @@
                 <RelativeLayout style="@style/MineFunctionRl">
 
                     <TextView
+                        android:id="@+id/tv_setting"
                         style="@style/MineFunctionTvLeft"
                         android:text="@string/settings"
                         android:textColor="@color/color_222222" />
 
                     <ImageView
+                        android:id="@+id/iv_setting"
                         style="@style/MineFunctionArrow"
                         android:background="@mipmap/setting_arrow" />
 

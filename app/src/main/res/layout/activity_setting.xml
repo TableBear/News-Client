@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <include layout="@layout/include_top_with_text" />
 
     <com.hzx.news.ui.uikit.HeaderZoomLayout
         android:layout_width="match_parent"
@@ -27,14 +28,14 @@
                 <RelativeLayout style="@style/MineFunctionRl">
 
                     <TextView
-                        android:id="@+id/tv_message"
                         style="@style/MineFunctionTvLeft"
                         android:text="用户名"
                         android:textColor="@color/color_222222" />
 
                     <TextView
+                        android:id="@+id/tv_name"
                         style="@style/MineFunctionTvRight"
-                        android:text="TableBear" />
+                        android:text="用户名" />
 
                     <ImageView
                         style="@style/MineFunctionArrow"
@@ -56,8 +57,9 @@
                         android:textColor="@color/color_222222" />
 
                     <TextView
+                        android:id="@+id/tv_email"
                         style="@style/MineFunctionTvRight"
-                        android:text="13602291000@test.com" />
+                        android:text="未绑定邮箱" />
 
                     <ImageView
                         style="@style/MineFunctionArrow"
@@ -78,8 +80,9 @@
                         android:textColor="@color/color_222222" />
 
                     <TextView
+                        android:id="@+id/tv_phone"
                         style="@style/MineFunctionTvRight"
-                        android:text="13602291000" />
+                        android:text="未绑定手机" />
 
                     <ImageView
                         style="@style/MineFunctionArrow"
@@ -99,8 +102,9 @@
                         android:textColor="@color/color_222222" />
 
                     <TextView
+                        android:id="@+id/tv_qq"
                         style="@style/MineFunctionTvRight"
-                        android:text="2390445000" />
+                        android:text="未绑定QQ" />
 
                     <ImageView
                         style="@style/MineFunctionArrow"
@@ -134,7 +138,7 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginRight="15dp"
-                    android:background="@color/colorPrimary"
+                    android:background="@drawable/buttonstyle"
                     android:text="退出登录" />
 
             </LinearLayout>

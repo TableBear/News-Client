@@ -80,4 +80,9 @@ public class RegisterActivity extends BaseActivity<LoginRegisterPresenter> imple
         presenter.register(email, name, password);
     }
 
+    @OnClick(R.id.iv_back)
+    public void backClick(){
+        finish();
+    }
+
 }
