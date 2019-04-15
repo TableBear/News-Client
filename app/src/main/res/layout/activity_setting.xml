@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <com.hzx.news.ui.uikit.HeaderZoomLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!--内容-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_count"
+                android:orientation="vertical">
+
+                <!--用户名-->
+                <RelativeLayout style="@style/MineFunctionRl">
+
+                    <TextView
+                        android:id="@+id/tv_message"
+                        style="@style/MineFunctionTvLeft"
+                        android:text="用户名"
+                        android:textColor="@color/color_222222" />
+
+                    <TextView
+                        style="@style/MineFunctionTvRight"
+                        android:text="TableBear" />
+
+                    <ImageView
+                        style="@style/MineFunctionArrow"
+                        android:background="@mipmap/setting_arrow" />
+
+                </RelativeLayout>
+
+
+                <View
+                    style="@style/MineFunctionDivider"
+                    android:layout_marginLeft="15dp" />
+
+                <!--绑定邮箱-->
+                <RelativeLayout style="@style/MineFunctionRl">
+
+                    <TextView
+                        style="@style/MineFunctionTvLeft"
+                        android:text="绑定邮箱"
+                        android:textColor="@color/color_222222" />
+
+                    <TextView
+                        style="@style/MineFunctionTvRight"
+                        android:text="13602291000@test.com" />
+
+                    <ImageView
+                        style="@style/MineFunctionArrow"
+                        android:background="@mipmap/setting_arrow" />
+
+                </RelativeLayout>
+
+                <View
+                    style="@style/MineFunctionDivider"
+                    android:layout_marginLeft="15dp" />
+
+                <!--绑定手机-->
+                <RelativeLayout style="@style/MineFunctionRl">
+
+                    <TextView
+                        style="@style/MineFunctionTvLeft"
+                        android:text="绑定手机"
+                        android:textColor="@color/color_222222" />
+
+                    <TextView
+                        style="@style/MineFunctionTvRight"
+                        android:text="13602291000" />
+
+                    <ImageView
+                        style="@style/MineFunctionArrow"
+                        android:background="@mipmap/setting_arrow" />
+
+                </RelativeLayout>
+
+                <View
+                    style="@style/MineFunctionDivider"
+                    android:layout_marginLeft="15dp" />
+                <!--绑定QQ-->
+                <RelativeLayout style="@style/MineFunctionRl">
+
+                    <TextView
+                        style="@style/MineFunctionTvLeft"
+                        android:text="绑定QQ"
+                        android:textColor="@color/color_222222" />
+
+                    <TextView
+                        style="@style/MineFunctionTvRight"
+                        android:text="2390445000" />
+
+                    <ImageView
+                        style="@style/MineFunctionArrow"
+                        android:background="@mipmap/setting_arrow" />
+
+                </RelativeLayout>
+
+                <View
+                    style="@style/MineFunctionDivider"
+                    android:layout_marginLeft="15dp" />
+                <!--修改密码-->
+                <RelativeLayout style="@style/MineFunctionRl">
+
+                    <TextView
+                        style="@style/MineFunctionTvLeft"
+                        android:text="修改密码"
+                        android:textColor="@color/color_222222" />
+
+                    <ImageView
+                        style="@style/MineFunctionArrow"
+                        android:background="@mipmap/setting_arrow" />
+
+                </RelativeLayout>
+
+                <View style="@style/MineFunctionDivider" />
+
+                <Button
+                    android:id="@+id/bt_logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/colorPrimary"
+                    android:text="退出登录" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </com.hzx.news.ui.uikit.HeaderZoomLayout>
+
+</LinearLayout>

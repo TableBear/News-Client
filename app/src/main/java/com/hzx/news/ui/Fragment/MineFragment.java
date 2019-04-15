@@ -7,6 +7,7 @@ import com.auth0.jwt.JWT;
 import com.hzx.news.R;
 import com.hzx.news.app.NewsApp;
 import com.hzx.news.ui.activity.LoginActivity;
+import com.hzx.news.ui.activity.MessageActivity;
 import com.hzx.news.ui.activity.RecordActivity;
 import com.hzx.news.ui.base.BaseFragment;
 import com.hzx.news.ui.base.BasePresenter;
@@ -93,6 +94,12 @@ public class MineFragment extends BaseFragment {
     @OnClick(R.id.iv_to_profile)
     public void toProfileClick() {
         Intent intent = new Intent(getContext(), LoginActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.tv_message)
+    public void messageClick() {
+        Intent intent = new Intent(getContext(), MessageActivity.class);
         startActivity(intent);
     }
 }

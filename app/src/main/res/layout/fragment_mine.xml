@@ -204,6 +204,7 @@
                 <RelativeLayout style="@style/MineFunctionRl">
 
                     <TextView
+                        android:id="@+id/tv_message"
                         style="@style/MineFunctionTvLeft"
                         android:text="@string/message_inform"
                         android:textColor="@color/color_222222" />
