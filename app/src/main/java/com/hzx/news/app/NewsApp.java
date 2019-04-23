@@ -11,10 +11,15 @@ public class NewsApp extends BaseApp {
 
     public static Token token;
 
+
+
     @Override
     public void onCreate() {
         super.onCreate();
         KLog.init(BuildConfig.DEBUG);//初始化KLog
         LitePal.initialize(getContext());//初始化LitePal
     }
+
+
+
 }

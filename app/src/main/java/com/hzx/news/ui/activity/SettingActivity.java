@@ -1,5 +1,6 @@
 package com.hzx.news.ui.activity;
 
+import android.app.Dialog;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -11,6 +12,7 @@ import com.hzx.news.presenter.SettingPresenter;
 import com.hzx.news.presenter.View.SettingView;
 import com.hzx.news.ui.base.BaseActivity;
 import com.hzx.news.ui.base.BasePresenter;
+import com.hzx.news.ui.dialog.ComfirmDialog;
 
 import org.litepal.LitePal;
 import org.litepal.crud.callback.UpdateOrDeleteCallback;
@@ -52,16 +54,26 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
 
     @OnClick(R.id.bt_logout)
     public void logout() {
-        NewsApp.token = null;
-        LitePal.deleteAllAsync(Token.class).listen(new UpdateOrDeleteCallback() {
+        new ComfirmDialog(getCurrentActivity(), R.style.dialog, "您确定删除此信息？", new ComfirmDialog.OnCloseListener() {
             @Override
-            public void onFinish(int rowsAffected) {
-                if (rowsAffected > 0) {
-                    Toast.makeText(getCurrentActivity(), "推出登录成功", Toast.LENGTH_SHORT);
-                    finish();
+            public void onClick(Dialog dialog, boolean confirm) {
+                if (confirm) {
+                    Toast.makeText(getCurrentActivity(), "点击确定", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                    NewsApp.token = null;
+                    LitePal.deleteAllAsync(Token.class).listen(new UpdateOrDeleteCallback() {
+                        @Override
+                        public void onFinish(int rowsAffected) {
+                            if (rowsAffected > 0) {
+                                Toast.makeText(getCurrentActivity(), "推出登录成功", Toast.LENGTH_SHORT);
+                                finish();
+                            }
+                        }
+                    });
                 }
+
             }
-        });
+        }).setTitle("提示").show();
     }
 
     @Override

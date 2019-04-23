@@ -49,4 +49,6 @@
     <string name="provide_news">我要爆料</string>
     <string name="feed_back">用户反馈</string>
     <string name="settings">系统设置</string>
+    <string name="submit">提交</string>
+    <string name="cancel">取消</string>
 </resources>
