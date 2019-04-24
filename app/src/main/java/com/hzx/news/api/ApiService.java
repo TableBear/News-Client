@@ -4,6 +4,7 @@ import com.hzx.news.model.NewsResponse;
 import com.hzx.news.model.entity.LoginRegisterStatus;
 import com.hzx.news.model.entity.News;
 import com.hzx.news.model.entity.OptStatus;
+import com.hzx.news.model.entity.UpdateStatus;
 import com.hzx.news.model.entity.User;
 
 import java.util.List;
@@ -31,6 +32,11 @@ public interface ApiService {
     String POST_REGISTER_EMAIL = "user/register/email";
     String POST_LOGIN_EMAIL = "user/login/email";
     String GET_USER_INFO = "user/info";
+    String GET_UPDATE_NICK = "user/update/nick";
+    String GET_UPDATE_PHONE = "user/update/phone";
+    String GET_UPDATE_EMAIL = "user/update/email";
+    String GET_UPDATE_QQ = "user/update/qq";
+    String GET_UPDATE_PASSWORD = "user/update/password";
 
     /**
      * 获取新闻列表
@@ -83,5 +89,20 @@ public interface ApiService {
 
     @GET(GET_USER_INFO)
     Observable<User> getUserInfo();
+
+    @GET(GET_UPDATE_NICK)
+    Observable<UpdateStatus> getUpdateNick(@Query("nick") String nick);
+
+    @GET(GET_UPDATE_EMAIL)
+    Observable<UpdateStatus> getUpdateEmail(@Query("email") String email);
+
+    @GET(GET_UPDATE_PHONE)
+    Observable<UpdateStatus> getUpdatePhone(@Query("phone") String phone);
+
+    @GET(GET_UPDATE_QQ)
+    Observable<UpdateStatus> getUpdateQQ(@Query("qq") String qq);
+
+    @GET(GET_UPDATE_PASSWORD)
+    Observable<UpdateStatus> getUpdatePassword(@Query("password") String password);
 
 }

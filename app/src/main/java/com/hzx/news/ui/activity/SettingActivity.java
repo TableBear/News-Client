@@ -7,12 +7,13 @@ import android.widget.Toast;
 import com.hzx.news.R;
 import com.hzx.news.app.NewsApp;
 import com.hzx.news.model.entity.Token;
+import com.hzx.news.model.entity.UpdateStatus;
 import com.hzx.news.model.entity.User;
 import com.hzx.news.presenter.SettingPresenter;
 import com.hzx.news.presenter.View.SettingView;
 import com.hzx.news.ui.base.BaseActivity;
-import com.hzx.news.ui.base.BasePresenter;
-import com.hzx.news.ui.dialog.ComfirmDialog;
+import com.hzx.news.ui.dialog.ConfirmDialog;
+import com.hzx.news.ui.dialog.InputDialog;
 
 import org.litepal.LitePal;
 import org.litepal.crud.callback.UpdateOrDeleteCallback;
@@ -52,9 +53,80 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         finish();
     }
 
+    @OnClick(R.id.iv_name)
+    public void ivNameClick() {
+        new InputDialog(getCurrentActivity(), R.style.dialog, new InputDialog.OnCloseListener() {
+            @Override
+            public void onClick(Dialog dialog, String content, boolean confirm) {
+                if (confirm) {
+                    presenter.updateNick(content);
+                    dialog.dismiss();
+                }
+
+            }
+        }).setTitle("请输入新的用户名").show();
+    }
+
+    @OnClick(R.id.iv_email)
+    public void ivEmailClick() {
+        new InputDialog(getCurrentActivity(), R.style.dialog, new InputDialog.OnCloseListener() {
+            @Override
+            public void onClick(Dialog dialog, String content, boolean confirm) {
+                if (confirm) {
+                    presenter.updateEmail(content);
+                    dialog.dismiss();
+                }
+
+            }
+        }).setTitle("请输入新的邮箱").show();
+    }
+
+    @OnClick(R.id.iv_phone)
+    public void ivPhoneClick() {
+        new InputDialog(getCurrentActivity(), R.style.dialog, new InputDialog.OnCloseListener() {
+            @Override
+            public void onClick(Dialog dialog, String content, boolean confirm) {
+                if (confirm) {
+                    presenter.updatePhone(content);
+                    dialog.dismiss();
+                }
+
+            }
+        }).setTitle("请输入新的手机号码").show();
+    }
+
+    @OnClick(R.id.iv_qq)
+    public void ivQQClick() {
+        new InputDialog(getCurrentActivity(), R.style.dialog, new InputDialog.OnCloseListener() {
+            @Override
+            public void onClick(Dialog dialog, String content, boolean confirm) {
+                if (confirm) {
+                    presenter.updateQQ(content);
+                    dialog.dismiss();
+                }
+
+            }
+        }).setTitle("请输入新的QQ号码").show();
+    }
+
+    @OnClick(R.id.iv_password)
+    public void ivPasswordClick() {
+        new InputDialog(getCurrentActivity(), R.style.dialog, new InputDialog.OnCloseListener() {
+            @Override
+            public void onClick(Dialog dialog, String content, boolean confirm) {
+                if (confirm) {
+                    presenter.updatePassword(content);
+                    dialog.dismiss();
+                }
+
+            }
+        }).setTitle("输入新的密码").show();
+    }
+
+
     @OnClick(R.id.bt_logout)
     public void logout() {
-        new ComfirmDialog(getCurrentActivity(), R.style.dialog, "您确定删除此信息？", new ComfirmDialog.OnCloseListener() {
+        new ConfirmDialog(getCurrentActivity(), R.style.dialog, "您确定退出登录成功？", new ConfirmDialog.OnCloseListener() {
             @Override
             public void onClick(Dialog dialog, boolean confirm) {
                 if (confirm) {
@@ -65,7 +137,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
                         @Override
                         public void onFinish(int rowsAffected) {
                             if (rowsAffected > 0) {
-                                Toast.makeText(getCurrentActivity(), "推出登录成功", Toast.LENGTH_SHORT);
+                                Toast.makeText(getCurrentActivity(), "退出登录成功", Toast.LENGTH_SHORT);
                                 finish();
                             }
                         }
@@ -94,6 +166,32 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
 
     @Override
     public void onError() {
-        Toast.makeText(this, "出现未知异常，稍后重试", Toast.LENGTH_SHORT);
+        Toast.makeText(this, "出现未知异常，稍后重试", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onUpdateSucess(UpdateStatus updateStatus) {
+        if (updateStatus.getCode().equals("200")) {
+            if (updateStatus.getInfo().length() > 10) {
+                LitePal.deleteAll(Token.class);
+                NewsApp.token.setToken(updateStatus.getInfo());
+                NewsApp.token.save();
+            }
+            initData();
+            Toast.makeText(this, "修改成功", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "修改失败，稍后重试", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onUpdateError() {
+        Toast.makeText(this, "出现未知异常，稍后重试", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initData();
     }
 }

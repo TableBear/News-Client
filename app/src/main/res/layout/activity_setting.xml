@@ -38,6 +38,7 @@
                         android:text="用户名" />
 
                     <ImageView
+                        android:id="@+id/iv_name"
                         style="@style/MineFunctionArrow"
                         android:background="@mipmap/setting_arrow" />
 
@@ -62,6 +63,7 @@
                         android:text="未绑定邮箱" />
 
                     <ImageView
+                        android:id="@+id/iv_email"
                         style="@style/MineFunctionArrow"
                         android:background="@mipmap/setting_arrow" />
 
@@ -85,6 +87,7 @@
                         android:text="未绑定手机" />
 
                     <ImageView
+                        android:id="@+id/iv_phone"
                         style="@style/MineFunctionArrow"
                         android:background="@mipmap/setting_arrow" />
 
@@ -107,6 +110,7 @@
                         android:text="未绑定QQ" />
 
                     <ImageView
+                        android:id="@+id/iv_qq"
                         style="@style/MineFunctionArrow"
                         android:background="@mipmap/setting_arrow" />
 
@@ -124,6 +128,7 @@
                         android:textColor="@color/color_222222" />
 
                     <ImageView
+                        android:id="@+id/iv_password"
                         style="@style/MineFunctionArrow"
                         android:background="@mipmap/setting_arrow" />
 

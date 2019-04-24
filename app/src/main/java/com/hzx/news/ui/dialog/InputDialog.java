@@ -1,77 +1,69 @@
 package com.hzx.news.ui.dialog;
 
-/**
- * @Description:
- * @Author: TableBear
- * @Date: 2019/4/23 14:55
- * @param:
- * @return:
- * @throws:
- */
-
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.hzx.news.R;
 
+/**
+ * @Description:
+ * @Author: TableBear
+ * @Date: 2019/4/23 22:59
+ * @param:
+ * @return:
+ * @throws:
+ */
+public class InputDialog extends Dialog implements View.OnClickListener {
 
-public class ComfirmDialog extends Dialog implements View.OnClickListener {
-    private TextView contentTxt;
+    private EditText contentTxt;
     private TextView titleTxt;
     private TextView submitTxt;
     private TextView cancelTxt;
 
     private Context mContext;
-    private String content;
     private OnCloseListener listener;
     private String positiveName;
     private String negativeName;
     private String title;
 
-    public ComfirmDialog(Context context) {
+    public InputDialog(Context context) {
         super(context);
         this.mContext = context;
     }
 
-    public ComfirmDialog(Context context, String content) {
-        super(context, R.style.dialog);
-        this.mContext = context;
-        this.content = content;
-    }
 
-    public ComfirmDialog(Context context, int themeResId, String content) {
+    public InputDialog(Context context, int themeResId) {
         super(context, themeResId);
         this.mContext = context;
-        this.content = content;
     }
 
-    public ComfirmDialog(Context context, int themeResId, String content, OnCloseListener listener) {
+    public InputDialog(Context context, int themeResId, OnCloseListener listener) {
         super(context, themeResId);
         this.mContext = context;
-        this.content = content;
         this.listener = listener;
     }
 
-    protected ComfirmDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
+    protected InputDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
         this.mContext = context;
     }
 
-    public ComfirmDialog setTitle(String title) {
+    public InputDialog setTitle(String title) {
         this.title = title;
         return this;
     }
 
-    public ComfirmDialog setPositiveButton(String name) {
+    public InputDialog setPositiveButton(String name) {
         this.positiveName = name;
         return this;
     }
 
-    public ComfirmDialog setNegativeButton(String name) {
+    public InputDialog setNegativeButton(String name) {
         this.negativeName = name;
         return this;
     }
@@ -79,20 +71,19 @@ public class ComfirmDialog extends Dialog implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog);
+        setContentView(R.layout.dialog_input);
         setCanceledOnTouchOutside(false);
         initView();
     }
 
     private void initView() {
-        contentTxt = (TextView) findViewById(R.id.content);
-        titleTxt = (TextView) findViewById(R.id.title);
-        submitTxt = (TextView) findViewById(R.id.submit);
+        contentTxt = findViewById(R.id.content);
+        titleTxt = findViewById(R.id.title);
+        submitTxt = findViewById(R.id.submit);
         submitTxt.setOnClickListener(this);
-        cancelTxt = (TextView) findViewById(R.id.cancel);
+        cancelTxt = findViewById(R.id.cancel);
         cancelTxt.setOnClickListener(this);
 
-        contentTxt.setText(content);
         if (!TextUtils.isEmpty(positiveName)) {
             submitTxt.setText(positiveName);
         }
@@ -112,19 +103,22 @@ public class ComfirmDialog extends Dialog implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.cancel:
                 if (listener != null) {
-                    listener.onClick(this, false);
+                    String content = contentTxt.getText().toString();
+                    listener.onClick(this, content, false);
                 }
                 this.dismiss();
                 break;
             case R.id.submit:
                 if (listener != null) {
-                    listener.onClick(this, true);
+                    String content = contentTxt.getText().toString();
+                    listener.onClick(this, content, true);
                 }
                 break;
         }
     }
 
     public interface OnCloseListener {
-        void onClick(Dialog dialog, boolean confirm);
+        void onClick(Dialog dialog, String content, boolean confirm);
     }
+
 }
