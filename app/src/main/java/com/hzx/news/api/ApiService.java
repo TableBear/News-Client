@@ -37,6 +37,7 @@ public interface ApiService {
     String GET_UPDATE_EMAIL = "user/update/email";
     String GET_UPDATE_QQ = "user/update/qq";
     String GET_UPDATE_PASSWORD = "user/update/password";
+    String GET_RECOM_NEWS = "recom/news";
 
     /**
      * 获取新闻列表
@@ -105,4 +106,6 @@ public interface ApiService {
     @GET(GET_UPDATE_PASSWORD)
     Observable<UpdateStatus> getUpdatePassword(@Query("password") String password);
 
+    @GET(GET_RECOM_NEWS)
+    Observable<NewsResponse> getRecomNews(@Query("offest") int offest, @Query("limit") int limit);
 }
