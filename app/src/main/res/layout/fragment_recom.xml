@@ -5,6 +5,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <com.hzx.news.ui.uikit.TopView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <com.hzx.news.utils.TipView
         android:id="@+id/tip_view"
         android:layout_width="match_parent"

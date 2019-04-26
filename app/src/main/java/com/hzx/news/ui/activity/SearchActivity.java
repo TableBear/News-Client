@@ -17,13 +17,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.hzx.news.R;
 import com.hzx.news.model.entity.News;
-import com.hzx.news.presenter.CollectPresenter;
-import com.hzx.news.presenter.HistoryPresenter;
-import com.hzx.news.presenter.LikePresenter;
-import com.hzx.news.presenter.RecordPresenter;
-import com.hzx.news.presenter.View.NewsListView;
+import com.hzx.news.presenter.SearchPresenter;
+import com.hzx.news.presenter.View.PSearchView;
 import com.hzx.news.ui.base.BaseActivity;
 import com.hzx.news.ui.uikit.GlideUtils;
+import com.hzx.news.ui.uikit.SearchView;
 import com.hzx.news.utils.ListUtils;
 import com.socks.library.KLog;
 
@@ -32,48 +30,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
-public class RecordActivity extends BaseActivity<RecordPresenter> implements NewsListView {
-
+public class SearchActivity extends BaseActivity<SearchPresenter> implements PSearchView, SearchView.SearchViewListener {
 
     @BindView(R.id.rv_content)
     RecyclerView recyclerView;
-    @BindView(R.id.tv_title)
-    TextView tvTitle;
+    @BindView(R.id.search_view)
+    SearchView searchView;
     @BindView(R.id.ll_layout)
     LinearLayout linearLayout;
+
     private NewsAdapter newsAdapter;
     private List<News> datas;
     private SimpleDateFormat sdf;
 
-
-    private int flag;
-
     @Override
-    public void beforCreatePresenter(Intent intent) {
-        super.beforCreatePresenter(intent);
-        flag = intent.getIntExtra("flag", 0);
-    }
-
-    @Override
-    protected RecordPresenter createPresenter() {
-        switch (flag) {
-            case 1:
-                return new HistoryPresenter(this);
-            case 2:
-                return new CollectPresenter(this);
-            default:
-                return new LikePresenter(this);
-        }
-
+    protected SearchPresenter createPresenter() {
+        return new SearchPresenter(this);
     }
 
     @Override
     protected int provideContentViewId() {
-        return R.layout.activity_record;
+        return R.layout.activity_search;
     }
-
 
     @Override
     public void initView() {
@@ -84,21 +63,6 @@ public class RecordActivity extends BaseActivity<RecordPresenter> implements New
         }
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        if (flag == 1) {
-            tvTitle.setText("历史记录");
-        } else if (flag == 2) {
-            tvTitle.setText("收藏");
-        } else {
-            tvTitle.setText("点赞");
-        }
-    }
-
-    @Override
-    public void initData() {
-        super.initData();
-        sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        stateView.showLoading();
-        presenter.getData();
     }
 
     @Override
@@ -107,6 +71,7 @@ public class RecordActivity extends BaseActivity<RecordPresenter> implements New
         datas = new ArrayList<>();
         newsAdapter = new NewsAdapter(datas);
         recyclerView.setAdapter(newsAdapter);
+        searchView.setSearchViewListener(this);
         newsAdapter.setItemClickListener(new ItemClickListener() {
             @Override
             public void click(int position, View view) {
@@ -119,28 +84,39 @@ public class RecordActivity extends BaseActivity<RecordPresenter> implements New
         });
     }
 
+    @Override
+    public void initData() {
+        super.initData();
+        sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    }
+
 
     @Override
-    public void onSuccess(List<News> newsList) {
-        if (ListUtils.isEmpty(newsList)) {
-            if (ListUtils.isEmpty(datas)) {
-                stateView.showEmpty();
-            } else {
-                stateView.showContent();
-            }
+    public void onSearchSuccess(List<News> list) {
+        if (ListUtils.isEmpty(list)) {
+            stateView.showEmpty();
         } else {
-            datas.addAll(0, newsList);
+            datas.clear();
+            datas.addAll(0, list);
             newsAdapter.notifyDataSetChanged();
             stateView.showContent();
         }
     }
 
     @Override
-    public void onError() {
-        if (ListUtils.isEmpty(datas)) {
-            //如果一开始进入没有数据
-            stateView.showRetry();//显示重试的布局
-        }
+    public void onSearchError() {
+        stateView.showRetry();//显示重试的布局
+    }
+
+    @Override
+    public void onRefreshAutoComplete(String text) {
+
+    }
+
+    @Override
+    public void onSearch(String text) {
+        stateView.showLoading();
+        presenter.search(text);
     }
 
     private class NewsHolder extends RecyclerView.ViewHolder {
@@ -210,10 +186,5 @@ public class RecordActivity extends BaseActivity<RecordPresenter> implements New
 
     private interface ItemClickListener {
         void click(int position, View view);
-    }
-
-    @OnClick(R.id.iv_back)
-    public void backClick() {
-        finish();
     }
 }

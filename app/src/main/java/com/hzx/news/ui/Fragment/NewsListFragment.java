@@ -224,7 +224,7 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
             String jsonString = gson.toJson(list.get(i));
             KLog.i(list.get(i));
             News news = gson.fromJson(jsonString, News.class);
-            newsHolder.tvTitle.setText(news.getTitle());
+            newsHolder.tvTitle.setText(news.getAbstractTitle());
             newsHolder.tvAuthor.setText(news.getAuthor());
             newsHolder.tvTime.setText(sdf.format(news.getPublishTime()));
             newsHolder.tvCommentNum.setText("0评论");
