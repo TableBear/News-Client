@@ -6,9 +6,12 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 /**
- * 自定义一个不能左右滑动的ViewPager
- * @author Beyond
- *
+ * @Description: 自定义一个不能左右滑动的ViewPager
+ * @Author: TableBear
+ * @Date: 2019/4/30 23:38
+ * @param:
+ * @return:
+ * @throws:
  */
 public class NoScrollViewPager extends ViewPager {
 
