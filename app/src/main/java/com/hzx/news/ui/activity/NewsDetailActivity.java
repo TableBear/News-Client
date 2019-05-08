@@ -120,6 +120,7 @@ public class NewsDetailActivity extends BaseActivity<OperationPresenter> impleme
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 System.out.println("网页开始加载");
+                stateView.showLoading();
                 pbLoading.setVisibility(View.VISIBLE);
             }
 
