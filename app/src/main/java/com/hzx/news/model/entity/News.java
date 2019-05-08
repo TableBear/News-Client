@@ -1,19 +1,21 @@
 package com.hzx.news.model.entity;
 
+import java.util.Date;
+
 public class News {
     private String nid;
-    private long articleType;
+    private int articleType;
     private String abstractTitle;
     private String title;
     private String articleUrl;
-    private java.sql.Timestamp crawlTime;
+    private Date crawlTime;
     private String keywords;
     private String cate;
-    private java.sql.Timestamp publishTime;
+    private Date publishTime;
     private String author;
     private String coverImageUrl;
-    private long hasVideo;
-    private long hasImage;
+    private boolean hasVideo;
+    private boolean hasImage;
     private long favoriteCount;
     private long commentsCount;
     private String content;
@@ -28,11 +30,11 @@ public class News {
     }
 
 
-    public long getArticleType() {
+    public int getArticleType() {
         return articleType;
     }
 
-    public void setArticleType(long articleType) {
+    public void setArticleType(int articleType) {
         this.articleType = articleType;
     }
 
@@ -64,11 +66,11 @@ public class News {
     }
 
 
-    public java.sql.Timestamp getCrawlTime() {
+    public Date getCrawlTime() {
         return crawlTime;
     }
 
-    public void setCrawlTime(java.sql.Timestamp crawlTime) {
+    public void setCrawlTime(Date crawlTime) {
         this.crawlTime = crawlTime;
     }
 
@@ -91,11 +93,11 @@ public class News {
     }
 
 
-    public java.sql.Timestamp getPublishTime() {
+    public Date getPublishTime() {
         return publishTime;
     }
 
-    public void setPublishTime(java.sql.Timestamp publishTime) {
+    public void setPublishTime(Date publishTime) {
         this.publishTime = publishTime;
     }
 
@@ -118,20 +120,20 @@ public class News {
     }
 
 
-    public long getHasVideo() {
+    public boolean getHasVideo() {
         return hasVideo;
     }
 
-    public void setHasVideo(long hasVideo) {
+    public void setHasVideo(boolean hasVideo) {
         this.hasVideo = hasVideo;
     }
 
 
-    public long getHasImage() {
+    public boolean getHasImage() {
         return hasImage;
     }
 
-    public void setHasImage(long hasImage) {
+    public void setHasImage(boolean hasImage) {
         this.hasImage = hasImage;
     }
 

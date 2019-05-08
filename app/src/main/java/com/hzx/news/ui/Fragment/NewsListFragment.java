@@ -95,7 +95,7 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
         String time;
         if (datas.size() != 0) {
             News temp = datas.get(datas.size() - 1);
-            Timestamp publishTime = temp.getPublishTime();
+            Date publishTime = temp.getPublishTime();
             time = sdf.format(publishTime);
         } else {
             Date date = new Date();
@@ -220,10 +220,11 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
 
         @Override
         public void onBindViewHolder(@NonNull NewsHolder newsHolder, int i) {
-            Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
-            String jsonString = gson.toJson(list.get(i));
+//            Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+//            String jsonString = gson.toJson(list.get(i));
             KLog.i(list.get(i));
-            News news = gson.fromJson(jsonString, News.class);
+//            News news = gson.fromJson(jsonString, News.class);
+            News news = list.get(i);
             newsHolder.tvTitle.setText(news.getAbstractTitle());
             newsHolder.tvAuthor.setText(news.getAuthor());
             newsHolder.tvTime.setText(sdf.format(news.getPublishTime()));

@@ -30,9 +30,6 @@ public class ApiRetrofit {
     private Retrofit mRetrofit;
     private OkHttpClient mClient;
     private ApiService mApiService;
-    //    private Token token;
-//    private Token token = new Token("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOlsiNCIsIuaatOWQm-eGiiJdfQ.j-IDclGR2yk_PUQiSK_UEAfm1taZ_snCDcxBchx1gME");
-
     //缓存配置
     private Interceptor cacheInterceptor = chain -> {
 
@@ -95,7 +92,6 @@ public class ApiRetrofit {
         if (NewsApp.token != null) {
             builder.addHeader("Cookie", "token=" + NewsApp.token.getToken());
         }
-//      builder.addHeader("Cookie", "uuid=\"w:f2e0e469165542f8a3960f67cb354026\"; __tasessionId=4p6q77g6q1479458262778; csrftoken=7de2dd812d513441f85cf8272f015ce5; tt_webid=36385357187");
         return chain.proceed(builder.build());
     };
 
@@ -122,14 +118,14 @@ public class ApiRetrofit {
 //                .addInterceptor(cacheInterceptor)
                 .addInterceptor(logInterceptor)//添加log拦截器
                 .cache(cache)
-                .connectTimeout(20, TimeUnit.SECONDS)
-                .readTimeout(20, TimeUnit.SECONDS)
+                .connectTimeout(200, TimeUnit.SECONDS)
+                .readTimeout(200, TimeUnit.SECONDS)
                 .build();
 
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(ApiConstant.BASE_SERVER_URL)
                 .addConverterFactory(ScalarsConverterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create()))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())//支持RxJava
                 .client(mClient)
                 .build();

@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.nukc.stateview.StateView;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.hzx.news.R;
 import com.hzx.news.model.entity.News;
 import com.hzx.news.presenter.SearchPresenter;
@@ -156,12 +155,10 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements PSe
 
         @Override
         public void onBindViewHolder(@NonNull NewsHolder newsHolder, int i) {
-            Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
-            String jsonString = gson.toJson(list.get(i));
             KLog.i(list.get(i));
-            News news = gson.fromJson(jsonString, News.class);
-            newsHolder.tvTitle.setText(news.getAbstractTitle());
-            newsHolder.tvAuthor.setText(news.getAuthor());
+            News news = list.get(i);
+            newsHolder.tvTitle.setText(Html.fromHtml(news.getAbstractTitle()));
+            newsHolder.tvAuthor.setText(Html.fromHtml(news.getAuthor()));
             newsHolder.tvTime.setText(sdf.format(news.getPublishTime()));
             newsHolder.tvCommentNum.setText("0评论");
             GlideUtils.load(getCurrentActivity(), news.getCoverImageUrl(), newsHolder.ivImg);
