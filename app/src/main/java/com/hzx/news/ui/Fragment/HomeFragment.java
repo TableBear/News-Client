@@ -90,10 +90,10 @@ public class HomeFragment extends BaseFragment {
     }
 
     public void initTabLayout() {
-        String name[] = new String[]{"财经", "教育", "房产", "科技", "时尚", "体育", "游戏", "时政", "股票", "娱乐", "社会", "家居", "星座", "彩票"};
-        int code[] = new int[]{0, 1, 2, 4, 5, 7, 8, 9, 10, 11, 12, 13, 3, 6};
+        String name[] = new String[]{"全部", "财经", "教育", "房产", "科技", "时尚", "体育", "游戏", "时政", "股票", "娱乐", "社会", "家居", "星座", "彩票"};
+        int code[] = new int[]{-1, 0, 1, 2, 4, 5, 7, 8, 9, 10, 11, 12, 13, 3, 6};
         ArrayList<Fragment> fragments = new ArrayList<>(14);
-        for (int i = 0; i < 14; i++) {
+        for (int i = 0; i < 15; i++) {
             NewsListFragment newsListFragment = new NewsListFragment();
             Bundle bundle = new Bundle();
             bundle.putString("cate", code[i] + "");
@@ -108,9 +108,5 @@ public class HomeFragment extends BaseFragment {
         for (int i = 0; i < name.length; i++) {
             tabLayout.getTabAt(i).setText(name[i]);
         }
-        KLog.i("HomeFragment:" + activity.getPackageName());
-        KLog.i("HomeFragment:" + name.length);
-        KLog.i("HomeFragment:" + viewPager.getCurrentItem());
-        KLog.i("HomeFragment:" + fragments.size());
     }
 }

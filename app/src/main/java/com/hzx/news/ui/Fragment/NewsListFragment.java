@@ -65,6 +65,8 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
     private NewsAdapter newsAdapter;
     private List<News> datas;
     private SimpleDateFormat sdf;
+    private int offest = 0;
+    private int limit = 20;
 
     @Override
     public void onAttach(Context context) {
@@ -103,7 +105,11 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
         }
         KLog.i("time:" + time);
         time = DateUtils.date2TimeStamp(time, "yyyy-MM-dd HH:mm:ss");
-        presenter.getNewsList(cate, time, 20);
+        if (cate.equals("-1")) {
+            presenter.getAllNews(offest, limit);
+        } else {
+            presenter.getNewsList(cate, time, limit);
+        }
         if (!ListUtils.isEmpty(datas)) {
             stateView.showContent();
         }
@@ -152,6 +158,11 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
 
     @Override
     public void onSuccess(List<News> newsList) {
+        newsList.removeAll(datas);//移除已经在列表种的数据
+        //更新offest
+        if (cate.equals("-1")) {
+            offest += newsList.size();
+        }
         smartRefreshLayout.finishRefresh();
         if (ListUtils.isEmpty(newsList)) {
             tipView.show("暂时没有新数据");
@@ -220,10 +231,7 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
 
         @Override
         public void onBindViewHolder(@NonNull NewsHolder newsHolder, int i) {
-//            Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
-//            String jsonString = gson.toJson(list.get(i));
             KLog.i(list.get(i));
-//            News news = gson.fromJson(jsonString, News.class);
             News news = list.get(i);
             newsHolder.tvTitle.setText(news.getAbstractTitle());
             newsHolder.tvAuthor.setText(news.getAuthor());

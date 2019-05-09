@@ -22,20 +22,32 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <!--<com.chaychan.uikit.powerfulrecyclerview.PowerfulRecyclerView-->
-        <!--android:id="@+id/rv_comment"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--app:dividerColor="@color/white"-->
-        <!--/>-->
-
-        <WebView
-            android:id="@+id/wv_content"
+        <com.hzx.news.ui.uikit.NewsDetialScrollView
+            android:id="@+id/sv_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hardwareAccelerated="true"></WebView>
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <WebView
+                    android:id="@+id/wv_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hardwareAccelerated="true" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:dividerColor="@color/white" />
+            </LinearLayout>
+        </com.hzx.news.ui.uikit.NewsDetialScrollView>
 
     </FrameLayout>
+
 
     <include
         layout="@layout/include_news_detail_tool_bar"

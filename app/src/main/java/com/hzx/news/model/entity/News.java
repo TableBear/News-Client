@@ -163,4 +163,13 @@ public class News {
     public void setContent(String content) {
         this.content = content;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof News)) {
+            return false;
+        } else {
+            return this.getNid().equals(((News) obj).getNid());
+        }
+    }
 }

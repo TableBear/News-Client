@@ -45,5 +45,26 @@ public class NewsListPresenter extends BasePresenter<NewsListView> {
         });
     }
 
+    public void getAllNews(int offest, int limit) {
+        addSubscription(apiService.getAllNews(offest, limit), new Subscriber<NewsResponse>() {
+            @Override
+            public void onCompleted() {
+                KLog.i("加载成功");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                KLog.i(e.getLocalizedMessage());
+                view.onError();
+            }
+
+            @Override
+            public void onNext(NewsResponse response) {
+                List<News> data = response.getList();
+                KLog.e(data);
+                view.onSuccess(data);
+            }
+        });
+    }
 
 }

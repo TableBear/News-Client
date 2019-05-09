@@ -1,8 +1,13 @@
 package com.hzx.news.ui.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
+import android.os.Handler;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -19,10 +24,19 @@ import android.widget.Toast;
 
 import com.github.nukc.stateview.StateView;
 import com.hzx.news.R;
+import com.hzx.news.model.entity.NewsCommentResponse;
 import com.hzx.news.model.entity.OptStatus;
 import com.hzx.news.presenter.OperationPresenter;
 import com.hzx.news.presenter.View.NewsDetailView;
+import com.hzx.news.ui.adapter.CommentAdapter;
 import com.hzx.news.ui.base.BaseActivity;
+import com.hzx.news.ui.dialog.CommentEditeDialog;
+import com.hzx.news.ui.uikit.NewsDetialScrollView;
+import com.socks.library.KLog;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -52,6 +66,9 @@ public class NewsDetailActivity extends BaseActivity<OperationPresenter> impleme
     @BindView(R.id.fl_content)
     FrameLayout content;
 
+    @BindView(R.id.rv_comment)
+    RecyclerView rvComment;
+
     @BindView(R.id.iv_collect)
     ImageView ivCollect;
 
@@ -61,8 +78,19 @@ public class NewsDetailActivity extends BaseActivity<OperationPresenter> impleme
     @BindView(R.id.iv_like)
     ImageView ivLike;
 
+    @BindView(R.id.sv_content)
+    NewsDetialScrollView svConent;
+
+    @BindView(R.id.fl_comment_icon)
+    FrameLayout flCommentIcon;
+
+    @BindView(R.id.tv_comment_count)
+    TextView tvCommentNum;
+
     private boolean isCollect = false;
     private boolean isLike = false;
+    private boolean needLocation = true;
+    private List<NewsCommentResponse> comments;
 
     @Override
     protected OperationPresenter createPresenter() {
@@ -80,6 +108,8 @@ public class NewsDetailActivity extends BaseActivity<OperationPresenter> impleme
         stateView = StateView.inject(content);
         stateView.setLoadingResource(R.layout.page_loading);
         stateView.setRetryResource(R.layout.page_net_error);
+        stateView.showLoading();
+
     }
 
     @Override
@@ -87,17 +117,48 @@ public class NewsDetailActivity extends BaseActivity<OperationPresenter> impleme
         url = getIntent().getStringExtra(URL);
         nid = getIntent().getStringExtra(NID);
         wvContent.loadUrl(url);
+        comments = new ArrayList<>();
+        loadComment();
+        tvCommentNum.setText(comments.size() + "");
+        rvComment.setLayoutManager(new LinearLayoutManager(this));
+        rvComment.setAdapter(new CommentAdapter(this, comments));
+        rvComment.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
         presenter.click(nid);
         presenter.getOptStatus(nid);
     }
 
-//    final class InJavaScriptLocalObj {
-//        @JavascriptInterface
-//        public void showSource(String html) {
-//            System.out.println("网页源码");
-//            System.out.println(html);
-//        }
-//    }
+    public void loadComment() {
+        for (int i = 0; i < 10; i++) {
+            NewsCommentResponse newsResponse = new NewsCommentResponse();
+            newsResponse.setNid(i + "");
+            newsResponse.setUid(i);
+            newsResponse.setUnick("郑奕鑫");
+            newsResponse.setComment("太搞笑了");
+            newsResponse.setActionTime(new Date());
+            comments.add(newsResponse);
+        }
+    }
+
+    /**
+     * 滑动到评论区
+     */
+    private void goCommentLocation() {
+        needLocation = false;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (rvComment != null && svConent != null) {
+                    int[] comment_numxy = new int[2];
+                    int[] easyScrollxy = new int[2];
+                    rvComment.getLocationInWindow(comment_numxy);
+                    svConent.getLocationInWindow(easyScrollxy);
+                    svConent.smoothScrollTo(0, comment_numxy[1] - easyScrollxy[1]);
+                }
+            }
+        }, 1);
+    }
+
 
     @Override
     public void initListener() {
@@ -120,7 +181,7 @@ public class NewsDetailActivity extends BaseActivity<OperationPresenter> impleme
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 System.out.println("网页开始加载");
-                stateView.showLoading();
+
                 pbLoading.setVisibility(View.VISIBLE);
             }
 
@@ -128,8 +189,6 @@ public class NewsDetailActivity extends BaseActivity<OperationPresenter> impleme
             public void onPageFinished(WebView view, String url) {
                 pbLoading.setVisibility(View.GONE);
                 System.out.println("网页加载完成");
-//                view.loadUrl("javascript:window.local_obj.showSource('<head>'+"
-//                        + "document.getElementsByTagName('html')[0].innerHTML+'</head>');");
                 String jsFun = "javascript:function startHide(){\n" +
                         "        document.getElementsByClassName('card-wrapper')[0].style.display='none';\n" +
                         "        document.getElementsByClassName('btn-bottom-wrapper')[0].style.display='none';\n" +
@@ -153,6 +212,7 @@ public class NewsDetailActivity extends BaseActivity<OperationPresenter> impleme
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 super.onReceivedError(view, errorCode, description, failingUrl);
                 stateView.showRetry();
+                rvComment.setVisibility(View.VISIBLE);
             }
         });
 
@@ -163,17 +223,14 @@ public class NewsDetailActivity extends BaseActivity<OperationPresenter> impleme
             }
         });
 
-        wvContent.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                    if (keyCode == KeyEvent.KEYCODE_BACK && wvContent.canGoBack()) {  //表示按返回键
-                        wvContent.goBack();   //后退
-                        return true;    //已处理
-                    }
+        wvContent.setOnKeyListener((v, keyCode, event) -> {
+            if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && wvContent.canGoBack()) {  //表示按返回键
+                    wvContent.goBack();   //后退
+                    return true;    //已处理
                 }
-                return false;
             }
+            return false;
         });
     }
 
@@ -207,6 +264,21 @@ public class NewsDetailActivity extends BaseActivity<OperationPresenter> impleme
         } else {
             presenter.cancleLike(nid);
         }
+    }
+
+    @OnClick(R.id.fl_comment_icon)
+    public void onCommentIconClicked() {
+        goCommentLocation();
+    }
+
+    @OnClick(R.id.tv_comment_eidtor)
+    public void onCommentEditorClicked() {
+        CommentEditeDialog dialog = new CommentEditeDialog(this, true, true);
+        dialog.setSendBackListener(inputText -> {
+            Toast.makeText(getCurrentActivity(), inputText, Toast.LENGTH_SHORT).show();
+            KLog.i("输出了：" + inputText);
+        });
+        dialog.show();
     }
 
     @Override
@@ -273,4 +345,6 @@ public class NewsDetailActivity extends BaseActivity<OperationPresenter> impleme
     public void onGetStatusError() {
 
     }
+
+
 }

@@ -25,7 +25,7 @@ public class SplashActivity extends BaseActivity {
     //申请两个权限，录音和文件读写
     //1、首先声明一个数组permissions，将需要的权限都放在里面
     String[] permissions = new String[]{
-            Manifest.permission.READ_EXTERNAL_STORAGE};
+            Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     //2、创建一个mPermissionList，逐个判断哪些权限未授予，未授予的权限存储到mPerrrmissionList中
     List<String> mPermissionList = new ArrayList<>();
 
@@ -91,7 +91,7 @@ public class SplashActivity extends BaseActivity {
             //如果有权限没有被允许
             if (hasPermissionDismiss) {
                 showPermissionDialog();//跳转到系统设置权限页面，或者直接关闭页面，不让他继续访问
-            }else{
+            } else {
                 //全部权限通过，可以进行下一步操作。。。
 
             }

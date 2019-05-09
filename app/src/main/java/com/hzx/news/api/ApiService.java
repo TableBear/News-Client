@@ -3,6 +3,8 @@ package com.hzx.news.api;
 import com.hzx.news.model.NewsResponse;
 import com.hzx.news.model.entity.LoginRegisterStatus;
 import com.hzx.news.model.entity.News;
+import com.hzx.news.model.entity.NewsComment;
+import com.hzx.news.model.entity.NewsCommentResponse;
 import com.hzx.news.model.entity.OptStatus;
 import com.hzx.news.model.entity.UpdateStatus;
 import com.hzx.news.model.entity.User;
@@ -20,6 +22,7 @@ import rx.Observable;
 public interface ApiService {
     String GET_NEWS_LIST = "api/news";
     String GET_CATES_LIST = "api/cates";
+    String GET_ALL_NEWS = "api/all-offest";
     String POST_OPT_COLLECT = "opt/collect";
     String POST_OPT_LIKE = "opt/like";
     String POST_OPT_CLICK = "opt/click";
@@ -39,6 +42,8 @@ public interface ApiService {
     String GET_UPDATE_PASSWORD = "user/update/password";
     String GET_RECOM_NEWS = "recom/news";
     String GET_SEARCH_NEWS = "search/key";
+    String POST_COMMENT_NEWS = "comment/comment";
+    String GET_COMMENT_LIST = "comment/get-comment";
 
     /**
      * 获取新闻列表
@@ -52,6 +57,9 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(POST_OPT_COLLECT)
     Observable<String> postCollect(@Field("nid") String nid);
+
+    @GET(GET_ALL_NEWS)
+    Observable<NewsResponse> getAllNews(@Query("offest") int offest, @Query("limit") int limit);
 
     @FormUrlEncoded
     @POST(POST_OPT_LIKE)
@@ -112,4 +120,11 @@ public interface ApiService {
 
     @GET(GET_SEARCH_NEWS)
     Observable<NewsResponse> getSearchNews(@Query("key") String key);
+
+    @FormUrlEncoded
+    @POST
+    Observable<UpdateStatus> postCommentNews(NewsComment newsComment);
+
+    @GET(GET_COMMENT_LIST)
+    Observable<NewsCommentResponse> getCommentList(String nid);
 }
