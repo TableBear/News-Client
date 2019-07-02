@@ -9,8 +9,10 @@ import com.hzx.news.model.entity.OptStatus;
 import com.hzx.news.model.entity.UpdateStatus;
 import com.hzx.news.model.entity.User;
 
+import java.util.Date;
 import java.util.List;
 
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -42,7 +44,7 @@ public interface ApiService {
     String GET_UPDATE_PASSWORD = "user/update/password";
     String GET_RECOM_NEWS = "recom/news";
     String GET_SEARCH_NEWS = "search/key";
-    String POST_COMMENT_NEWS = "comment/comment";
+    String POST_COMMENT_NEWS = "comment/add";
     String GET_COMMENT_LIST = "comment/get-comment";
 
     /**
@@ -122,9 +124,9 @@ public interface ApiService {
     Observable<NewsResponse> getSearchNews(@Query("key") String key);
 
     @FormUrlEncoded
-    @POST
-    Observable<UpdateStatus> postCommentNews(NewsComment newsComment);
+    @POST(POST_COMMENT_NEWS)
+    Observable<UpdateStatus> postCommentNews(@Field("nid") String nid, @Field("uid") long uid, @Field("comment") String comment, @Field("actionTime") String actionTime);
 
     @GET(GET_COMMENT_LIST)
-    Observable<NewsCommentResponse> getCommentList(String nid);
+    Observable<List<NewsCommentResponse>> getCommentList(@Query("nid") String nid);
 }

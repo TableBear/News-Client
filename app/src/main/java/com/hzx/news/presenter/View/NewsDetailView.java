@@ -1,6 +1,10 @@
 package com.hzx.news.presenter.View;
 
+import com.hzx.news.model.entity.NewsCommentResponse;
 import com.hzx.news.model.entity.OptStatus;
+import com.hzx.news.model.entity.UpdateStatus;
+
+import java.util.List;
 
 /**
  * @Description:
@@ -30,5 +34,13 @@ public interface NewsDetailView {
     void onGetStatusSuccess(OptStatus status);
 
     void onGetStatusError();
+
+    void onCommentSuccess(UpdateStatus updateStatus);
+
+    void onCommentError();
+
+    void onGetCommentSuccess(List<NewsCommentResponse> list);
+
+    void onGetCommentError();
 
 }

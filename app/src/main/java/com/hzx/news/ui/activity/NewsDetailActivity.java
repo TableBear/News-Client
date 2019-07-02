@@ -1,6 +1,5 @@
 package com.hzx.news.ui.activity;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
@@ -24,8 +23,10 @@ import android.widget.Toast;
 
 import com.github.nukc.stateview.StateView;
 import com.hzx.news.R;
+import com.hzx.news.app.NewsApp;
 import com.hzx.news.model.entity.NewsCommentResponse;
 import com.hzx.news.model.entity.OptStatus;
+import com.hzx.news.model.entity.UpdateStatus;
 import com.hzx.news.presenter.OperationPresenter;
 import com.hzx.news.presenter.View.NewsDetailView;
 import com.hzx.news.ui.adapter.CommentAdapter;
@@ -34,6 +35,7 @@ import com.hzx.news.ui.dialog.CommentEditeDialog;
 import com.hzx.news.ui.uikit.NewsDetialScrollView;
 import com.socks.library.KLog;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -91,6 +93,8 @@ public class NewsDetailActivity extends BaseActivity<OperationPresenter> impleme
     private boolean isLike = false;
     private boolean needLocation = true;
     private List<NewsCommentResponse> comments;
+    private CommentAdapter commentAdapter;
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
     protected OperationPresenter createPresenter() {
@@ -118,26 +122,18 @@ public class NewsDetailActivity extends BaseActivity<OperationPresenter> impleme
         nid = getIntent().getStringExtra(NID);
         wvContent.loadUrl(url);
         comments = new ArrayList<>();
-        loadComment();
+        commentAdapter = new CommentAdapter(this, comments);
         tvCommentNum.setText(comments.size() + "");
         rvComment.setLayoutManager(new LinearLayoutManager(this));
-        rvComment.setAdapter(new CommentAdapter(this, comments));
+        rvComment.setAdapter(commentAdapter);
         rvComment.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-
+        loadComment();
         presenter.click(nid);
         presenter.getOptStatus(nid);
     }
 
     public void loadComment() {
-        for (int i = 0; i < 10; i++) {
-            NewsCommentResponse newsResponse = new NewsCommentResponse();
-            newsResponse.setNid(i + "");
-            newsResponse.setUid(i);
-            newsResponse.setUnick("郑奕鑫");
-            newsResponse.setComment("太搞笑了");
-            newsResponse.setActionTime(new Date());
-            comments.add(newsResponse);
-        }
+        presenter.getNewsComment(nid);
     }
 
     /**
@@ -165,7 +161,6 @@ public class NewsDetailActivity extends BaseActivity<OperationPresenter> impleme
         WebSettings settings = wvContent.getSettings();
         settings.setJavaScriptEnabled(true);
 //        wvContent.addJavascriptInterface(new InJavaScriptLocalObj(), "local_obj");
-
         settings.setPluginState(WebSettings.PluginState.ON);
         //支持视频播放
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -277,6 +272,13 @@ public class NewsDetailActivity extends BaseActivity<OperationPresenter> impleme
         dialog.setSendBackListener(inputText -> {
             Toast.makeText(getCurrentActivity(), inputText, Toast.LENGTH_SHORT).show();
             KLog.i("输出了：" + inputText);
+            if (NewsApp.token != null) {
+                System.out.println("nid" + nid);
+                System.out.println("uid" + NewsApp.token.getUid());
+                presenter.comment(nid, NewsApp.token.getUid(), inputText, sdf.format(new Date()));
+            } else {
+                Toast.makeText(getCurrentActivity(), "请登录之后再进行评论", Toast.LENGTH_SHORT).show();
+            }
         });
         dialog.show();
     }
@@ -344,6 +346,30 @@ public class NewsDetailActivity extends BaseActivity<OperationPresenter> impleme
     @Override
     public void onGetStatusError() {
 
+    }
+
+    @Override
+    public void onCommentSuccess(UpdateStatus updateStatus) {
+        Toast.makeText(this, updateStatus.getInfo(), Toast.LENGTH_SHORT).show();
+        loadComment();
+    }
+
+    @Override
+    public void onCommentError() {
+        Toast.makeText(this, "发生未知异常，请稍后重试", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onGetCommentSuccess(List<NewsCommentResponse> list) {
+        comments.clear();
+        comments.addAll(list);
+        commentAdapter.notifyDataSetChanged();
+        tvCommentNum.setText(list.size() + "");
+    }
+
+    @Override
+    public void onGetCommentError() {
+        Toast.makeText(this, "评论获取失败", Toast.LENGTH_SHORT).show();
     }
 
 

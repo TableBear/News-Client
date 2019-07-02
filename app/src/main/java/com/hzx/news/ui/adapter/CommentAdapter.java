@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.hzx.news.R;
 import com.hzx.news.model.NewsResponse;
@@ -31,6 +32,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
 
     Context context;
 
+    boolean isLike = false;
+
     private SimpleDateFormat sdf;
 
     public CommentAdapter() {
@@ -49,7 +52,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
     }
 
 
-
     @NonNull
     @Override
     public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -65,6 +67,16 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
         commentViewHolder.tvLikeCount.setText("0");
         commentViewHolder.tvContent.setText(comments.get(i).getComment());
         commentViewHolder.tvTime.setText(sdf.format(comments.get(i).getActionTime()));
+        commentViewHolder.tvLikeCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isLike) {
+                    commentViewHolder.tvLikeCount.setText("1");
+                } else {
+                    Toast.makeText(getContext(), "您已经点过赞", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override

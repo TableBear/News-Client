@@ -1,9 +1,13 @@
 package com.hzx.news.presenter;
 
+import com.hzx.news.model.entity.NewsCommentResponse;
 import com.hzx.news.model.entity.OptStatus;
+import com.hzx.news.model.entity.UpdateStatus;
 import com.hzx.news.presenter.View.NewsDetailView;
 import com.hzx.news.ui.base.BasePresenter;
 import com.socks.library.KLog;
+
+import java.util.List;
 
 import rx.Subscriber;
 
@@ -141,5 +145,48 @@ public class OperationPresenter extends BasePresenter<NewsDetailView> {
                 view.onGetStatusSuccess(s);
             }
         });
+    }
+
+    public void comment(String nid, long uid, String comment, String
+            actionTime) {
+        addSubscription(apiService.postCommentNews(nid, uid, comment, actionTime), new Subscriber<UpdateStatus>() {
+            @Override
+            public void onCompleted() {
+                KLog.i("评论完成");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                view.onCommentError();
+            }
+
+            @Override
+            public void onNext(UpdateStatus updateStatus) {
+                KLog.i(updateStatus.getInfo());
+                view.onCommentSuccess(updateStatus);
+            }
+        });
+    }
+
+    public void getNewsComment(String nid) {
+        addSubscription(apiService.getCommentList(nid), new Subscriber<List<NewsCommentResponse>>() {
+            @Override
+            public void onCompleted() {
+                KLog.i("请求评论完成");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                view.onGetCommentError();
+            }
+
+            @Override
+            public void onNext(List<NewsCommentResponse> list) {
+                view.onGetCommentSuccess(list);
+            }
+        });
+
     }
 }

@@ -58,7 +58,10 @@ public class LoginActivity extends BaseActivity<LoginRegisterPresenter> implemen
             NewsApp.token = new Token();
             NewsApp.token.setToken(status.getToken());
             NewsApp.token.setNick(status.getNick());
+            NewsApp.token.setUid(status.getUid());
             KLog.i(NewsApp.token.getToken());
+            KLog.i("status:" + status.getUid());
+            KLog.i("uid:" + NewsApp.token.getUid());
             NewsApp.token.saveAsync().listen(success -> {
                 if (success) {
                     KLog.i("保存成功");

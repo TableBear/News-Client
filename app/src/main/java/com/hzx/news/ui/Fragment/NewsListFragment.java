@@ -236,7 +236,7 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
             newsHolder.tvTitle.setText(news.getAbstractTitle());
             newsHolder.tvAuthor.setText(news.getAuthor());
             newsHolder.tvTime.setText(sdf.format(news.getPublishTime()));
-            newsHolder.tvCommentNum.setText("0评论");
+            newsHolder.tvCommentNum.setText(news.getCommentsCount() + "评论");
             GlideUtils.load(getActivity(), news.getCoverImageUrl(), newsHolder.ivImg);
             newsHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

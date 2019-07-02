@@ -160,7 +160,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements PSe
             newsHolder.tvTitle.setText(Html.fromHtml(news.getAbstractTitle()));
             newsHolder.tvAuthor.setText(Html.fromHtml(news.getAuthor()));
             newsHolder.tvTime.setText(sdf.format(news.getPublishTime()));
-            newsHolder.tvCommentNum.setText("0评论");
+            newsHolder.tvCommentNum.setText(news.getCommentsCount() + "评论");
             GlideUtils.load(getCurrentActivity(), news.getCoverImageUrl(), newsHolder.ivImg);
             newsHolder.itemView.setOnClickListener(v -> itemClickListener.click(i, v));
         }

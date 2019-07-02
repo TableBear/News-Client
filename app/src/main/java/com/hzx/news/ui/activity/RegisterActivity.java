@@ -39,7 +39,11 @@ public class RegisterActivity extends BaseActivity<LoginRegisterPresenter> imple
         if (status.getCode().equals("200")) {
             NewsApp.token = new Token();
             NewsApp.token.setToken(status.getToken());
+            NewsApp.token.setNick(status.getNick());
+            NewsApp.token.setUid(status.getUid());
             KLog.i(NewsApp.token.getToken());
+            KLog.i("status:" + status.getUid());
+            KLog.i("uid:" + NewsApp.token.getUid());
             NewsApp.token.saveAsync().listen(success -> {
                 if (success) {
                     KLog.i("保存成功");
@@ -81,7 +85,7 @@ public class RegisterActivity extends BaseActivity<LoginRegisterPresenter> imple
     }
 
     @OnClick(R.id.iv_back)
-    public void backClick(){
+    public void backClick() {
         finish();
     }
 

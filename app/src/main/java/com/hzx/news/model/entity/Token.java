@@ -10,6 +10,7 @@ import org.litepal.crud.LitePalSupport;
 public class Token extends LitePalSupport {
     private String token;
     private String nick;
+    private long uid;
 
     public Token() {
     }
@@ -18,9 +19,10 @@ public class Token extends LitePalSupport {
         this.token = token;
     }
 
-    public Token(String token, String nick) {
+    public Token(String token, String nick, long uid) {
         this.token = token;
         this.nick = nick;
+        this.uid = uid;
     }
 
     public String getToken() {
@@ -37,5 +39,13 @@ public class Token extends LitePalSupport {
 
     public void setNick(String nick) {
         this.nick = nick;
+    }
+
+    public long getUid() {
+        return uid;
+    }
+
+    public void setUid(long uid) {
+        this.uid = uid;
     }
 }

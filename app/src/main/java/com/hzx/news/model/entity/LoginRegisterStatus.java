@@ -13,6 +13,7 @@ public class LoginRegisterStatus {
     private String info;
     private String token;
     private String nick;
+    private int uid;
 
     public String getCode() {
         return code;
@@ -44,6 +45,14 @@ public class LoginRegisterStatus {
 
     public void setNick(String nick) {
         this.nick = nick;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 }
 
